@@ -19,7 +19,7 @@ public class UserDeniedHandler implements AccessDeniedHandler{
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
 		request.setAttribute("errMsg", "관리자만 접근할 수 있는 페이지입니다.");
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/denied.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/error/denied.jsp");
 		rd.forward(request, response);
 	}
 

@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-5.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- 주의 : security => sec로 수정 -->
@@ -20,10 +21,10 @@
 		<!-- 로그인 폼 -->
 		<!-- username-parameter = "컬럼명" password-parameter = "컬럼명" -->
 		<sec:form-login login-page = "/login.co"
-					login-processing-url = "/loginPro.lo"
+					login-processing-url = "/loginAction.co"
 					authentication-success-handler-ref = "userLoginSuccessHandler"
 					authentication-failure-handler-ref = "userLoginFailureHandler"
-					username-parameter = "me_id" password-parameter = "me_pw" />
+					username-parameter = "id" password-parameter = "pw" />
 		
 		<sec:session-management>
 			<!-- max-sessions = "1" : 같은 브라우저 여러창에서 동시접속 막기
@@ -31,15 +32,19 @@
 				 error-if-maximum-exceeded = "true" : 최대 세션 초과시 에러 옵션
 			 -->
 			<sec:concurrency-control max-sessions = "2"
-				expired-url = "/login.co"
+				expired-url = "/index.co"
 				error-if-maximum-exceeded = "true"
 			/>
 		</sec:session-management>
 		
 		<!-- 접근 권한이 없는 경우의 코드 -->
 		<sec:access-denied-handler ref="userDeniedHandler" />
-	</sec:http>
+		
+		<!-- csrf token을 쿠키에 저장하기 위해 사용, 새로고침 등의 옵션을 이용 -->
+		<sec:csrf token-repository-ref="tokenRepository"/>
 	
+	</sec:http>
+		
 	<bean id = "userLoginSuccessHandler" class = "com.leafcom.web.service.UserLoginSuccessHandler" >
 		<constructor-arg name = "sqlSession" ref = "sqlSession" />
 	</bean>
@@ -50,15 +55,18 @@
 	
 	<bean id = "userDeniedHandler" class = "com.leafcom.web.service.UserDeniedHandler" />
 	
+ 	<bean id="tokenRepository" class="org.springframework.security.web.csrf.CookieCsrfTokenRepository"
+		p:cookieHttpOnly="false"/>
+	
 	<!-- 로그인 인증을 처리하는 빈 -->
 	<!-- 주의 : UserAuthenticationService 작성하면 에러 사라짐 -->	
 	<bean id = "userService" class = "com.leafcom.web.service.UserAuthenticationService">
 		<constructor-arg name = "sqlSession" ref = "sqlSession" />
 	</bean>
-	
-	<!-- 비밀번호 암호화를 빈 -->
+
+	<!-- 비밀번호 암호화 빈 -->
 	<bean id = "bcryptPasswordEncoder" class = "org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>	
 	
 
-
+	
 </beans>

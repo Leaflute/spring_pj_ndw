@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.leafcom.web.dao.CustomerDAO;
-import com.leafcom.web.uitl.Code;
+import com.leafcom.web.util.Code;
 import com.leafcom.web.vo.AddressVO;
 import com.leafcom.web.vo.CartVO;
 import com.leafcom.web.vo.ItemVO;

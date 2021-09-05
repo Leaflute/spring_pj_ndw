@@ -32,28 +32,27 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler{
 			AuthenticationException exception) throws IOException, ServletException {
 	
 		System.out.println("실패 ");
-		String strId =  request.getParameter("member_code");
-		String strPwd = request.getParameter("m_pwd");
+		String strId = request.getParameter("id");
+		String strPw = request.getParameter("pw");
 		
-		int cnt = sqlSession.selectOne("spring.mvc.pj_test.persistence.LocalDAO.idCheck",strId);
+		int cnt = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.idChk",strId);
 		if(cnt!=0) {
 			
-			String pwd = sqlSession.selectOne("spring.mvc.pj_test.persistence.LocalDAO.pwdCheck",strId);
-			System.out.println(strPwd);
-			System.out.println(pwd);
-			System.out.println(passwordEncoder.matches(strPwd, pwd));
-			if(passwordEncoder.matches(strPwd, pwd)) {
+			String pw = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.pwChk",strId);
+			System.out.println(strPw);
+			System.out.println(pw);
+			System.out.println(passwordEncoder.matches(strPw, pw));
+			if(passwordEncoder.matches(strPw, pw)) {
 				request.setAttribute("errMsg", "이메일 인증하세요.");
 			}else {
 				request.setAttribute("errMsg", "비밀번호가 일치하지 않습니다.");
 			}
 			
 		}else {
-			System.out.println("dsaddsa");
-			request.setAttribute("errMsg", "아이디가 일치하지 않습니다.");
+			request.setAttribute("errMsg", "아이디가 존재하지 않습니다.");
 		}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/login/login.jsp");
 		rd.forward(request, response);
 	}
 

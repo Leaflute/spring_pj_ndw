@@ -9,7 +9,7 @@
 <script type="text/javascript" src="${jsPath}member.js"></script>
 </head>
 <body>
-<c:if test="${empty sessionScope.member}">
+<%-- <c:if test="${empty sessionScope.member}">
 	<c:if test="${selectCnt==0}">
 		<script type="text/javascript">
 			errorAlert(notExistMemError);
@@ -49,7 +49,7 @@
 			</script>
 		</c:if>
 	</c:if>
-</c:if>
+</c:if> --%>
 
 </body>
 </html>

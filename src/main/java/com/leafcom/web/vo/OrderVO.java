@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.leafcom.web.uitl.Code;
+import com.leafcom.web.util.Code;
 
 public class OrderVO {
 	

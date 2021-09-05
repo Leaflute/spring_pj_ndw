@@ -13,7 +13,11 @@
 </head>
 <body>
 <%@ include file="../../include/header.jsp" %>
-<form action="emailChkAction.co">
+<form action="emailResend.co" method="POST">
+<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
+<input type="hidden" name="id" value="${sessionScope.member.id}">
+<input type="hidden" name="key" value="${sessionScope.member.key}">
+<input type="hidden" name="email" value="${sessionScope.member.email}">
 <!-- article 시작 -->
 <article class="container">
 	<section class="wrapper">
@@ -26,6 +30,7 @@
 							<th>이메일 인증이 아직 완료되지 않았습니다.</th>
 						</tr>
 						<tr>
+							<th>등록하신 이메일은 ${sessionScope.member.email}입니다. </th>
 							<td><input type="submit" value="재전송"></td>
 						</tr>
 					</table>

@@ -31,7 +31,7 @@
 				<c:if test="${updateCnt==0}">
 					<script type="text/javascript">
 						alert("권한이 활성화되지 않았습니다. 이메일을 다시 확인해주세요.");
-						window.location='emailChk.co';
+						window.location='index.co';
 					</script>
 				</c:if>
 				<c:if test="${updateCnt!=0}">

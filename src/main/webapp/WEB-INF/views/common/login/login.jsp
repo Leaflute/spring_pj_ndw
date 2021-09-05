@@ -11,14 +11,15 @@
 <script type="text/javascript" src="${jsPath}member.js"></script>
 </head>
 <body>
-<%@ include file="../signHeader.jsp" %>
+<%@ include file="../logHeader.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">
 	<section class="wrapper">
 	<div id="signInBox">
 	<a href="index.co"><img src="${imgPath}leafcom-logo.png"></a>
-		<form action="loginAction.co" name="myForm" id="join">
+		<form action="loginAction.co" name="myForm" id="join" method="post">
+		<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">	
 			<fieldset>
 				<table>
 					<tr>
@@ -40,7 +41,7 @@
 					<tr>
 						<td colspan="2" align="center" class="cell_white">
 						<input type="button" value="회원가입" class="btn_white" style="width:100%;height:100%" 
-							onclick="window.location='signIn.co'">
+							onclick="window.location='signUp.co'">
 						</td>
 					</tr>
 				</table>

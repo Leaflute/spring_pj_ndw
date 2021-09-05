@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.leafcom.web.dao.AdminDAOImpl;
-import com.leafcom.web.uitl.Code;
+import com.leafcom.web.util.Code;
 import com.leafcom.web.vo.ItemVO;
 import com.leafcom.web.vo.OrderVO;
 import com.leafcom.web.vo.ReportVO;

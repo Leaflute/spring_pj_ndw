@@ -19,8 +19,9 @@
 <article class="container">
 	<section class="wrapper">
 	<div id="signInBox">
-		<a href="index.co"><img src="${imgPath}leafcom-logo.png"></a>
-		<form action="signInAction.co" method="post" name="signInForm" onsubmit="return signInChk();">
+		<a href=""><img src="${imgPath}leafcom-logo.png"></a>
+		<form action="signUpAction.co" method="post" name="signInForm" onsubmit="return signInChk();">
+			<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
 			<input type="hidden" name="hiddenEmail" value="0">
 			<input type="hidden" name="hiddenId" value="0">
 			<fieldset>
@@ -54,7 +55,7 @@
 					<tr>
 						<th class="icon"><i class="fas fa-mobile-alt"></i></th>
 						<td align="left">
-							<input type="text" name="phone" size="11" placeholder="휴대폰 번호">
+							<input type="text" name="mobile" size="11" placeholder="휴대폰 번호">
 							<input type="button" value="인증" class="btn_green">
 						</td>
 					</tr>

@@ -61,7 +61,7 @@
 			<ul id="top_right">
 				<c:if test="${empty sessionScope.member}">
 					<li><a href="login.co">로그인</a></li>
-					<li><a href="signIn.co">회원가입</a></li>
+					<li><a href="signUp.co">회원가입</a></li>
 					<li><a href="login.co" onclick="alert('로그인 후 이용해주세요.')">고객센터</a></li>
 				</c:if>
 				<c:if test="${not empty sessionScope.member}">

@@ -7,10 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leafcom.web.dao.CommonDAO;
-import com.leafcom.web.uitl.Code;
+import com.leafcom.web.util.Code;
+import com.leafcom.web.util.MailSendHandler;
 import com.leafcom.web.vo.MemberVO;
 
 @Service
@@ -19,36 +23,44 @@ public class CommonServiceImpl implements CommonService {
 	@Autowired
 	CommonDAO dao;
 	
-	// 로그인 처리
-	@Override
-	public void loginAction(HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("[co][service][loginAction()]");
-		
-		String strId = req.getParameter("id");
-		String strPw = req.getParameter("pw");
-		
-		int selectCnt = dao.idPwChk(strId, strPw);
-		MemberVO vo = null;
-		
-		// 로그인 세션 추가
-		if(selectCnt>0) {
-			vo = dao.getMemberInfo(strId);
-			req.getSession().setAttribute("member", vo);
-			System.out.println("role: " + vo.getRole());
-		} 
-		
-		req.setAttribute("selectCnt", selectCnt);
-	}
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
+//	// 로그인 처리
+//	@Override
+//	public void loginAction(HttpServletRequest req, Model model) {
+//		System.out.println("[co][service][loginAction()]");
+//		
+//		String strId = req.getParameter("id");
+//		String strPw = req.getParameter("pw");
+//		
+//		int selectCnt = dao.idChk(strId);
+//		
+//		MemberVO mVo = null;
+//		
+//		// 로그인 세션 추가
+//		if(selectCnt>0) {
+//			mVo = dao.memberInfo(strId);
+//			String pw = mVo.getId();
+//			if(strPw.equals(pw)) {
+//			req.getSession().setAttribute("member", mVo);
+//			System.out.println("role: " + mVo.getRole());
+//		} else {
+//			
+//		}
+//		
+//		req.setAttribute("selectCnt", selectCnt);
+//	}
 	
 	// 회원가입 - 아이디 중복확인
 	@Override
-	public void idDupChk(HttpServletRequest req, HttpServletResponse res) {
+	public void idDupChk(HttpServletRequest req, Model model) {
 		System.out.println("[co][service][idDupChk()]");
 		// 3단계. 화면에서 입력받은 값을 추출
 		String strId = req.getParameter("id");
 		
 		// 5단계. 중복확인 처리
-		int selectCnt = dao.idDupChk(strId);
+		int selectCnt = dao.idChk(strId);
 		
 		// 6단계. jsp로 결과 전달(request로 처리결과 저장)
 		req.setAttribute("selectCnt", selectCnt);
@@ -57,14 +69,22 @@ public class CommonServiceImpl implements CommonService {
 	
 	// 회원가입 - DB INSERT
 	@Override
-	public void signInAction(HttpServletRequest req, HttpServletResponse res) {
+	public void signUpAction(String id, String pw, String name, 
+			String email, String mobile, Model model) {
 		System.out.println("[co][service][signInActions()]");
+
+		System.out.println("암호화 전의 비밀번호" + pw);
+		
+		//비밀번호 암호화
+		String encryptPassword = passwordEncoder.encode(pw);
+		
+		System.out.println("암호화 후의 비밀번호" + encryptPassword);
 		
 		// 랜덤 key 생성
 		StringBuffer temp = new StringBuffer();
 		Random rd = new Random();
-		
-		for(int i=0; i<6; i++) {
+
+		for(int i=0; i<8; i++) {
 			int rIndex = rd.nextInt(2);
 			switch (rIndex) {
 			case 0:
@@ -78,98 +98,97 @@ public class CommonServiceImpl implements CommonService {
 		
 		String key = temp.toString();
 		
-		MemberVO vo = new MemberVO();
-		String email = req.getParameter("email");
-		String id = req.getParameter("id");
-		vo.setId(id);
-		vo.setPw(req.getParameter("pw"));
-		vo.setName(req.getParameter("name"));
-		vo.setEmail(email);
-		vo.setPhone(req.getParameter("phone"));
-		vo.setRegDate(new Timestamp(System.currentTimeMillis()));
-		vo.setRole(Code.GUEST);
-		vo.setCondition(Code.NOT_ACTIVATED);
-		vo.setKey(key);
+		MemberVO mVo = new MemberVO();
+		mVo.setId(id);
+		mVo.setPw(encryptPassword);
+		mVo.setName(name);
+		mVo.setEmail(email);
+		mVo.setMobile(mobile);
+		mVo.setRegDate(new Timestamp(System.currentTimeMillis()));
+		mVo.setAuthority(Code.USER);
+		mVo.setEnabled(Code.NOT_ACTIVATED);
+		mVo.setCondition(Code.NORMAL);
+		mVo.setKey(key);
 		
-		int insertCnt = dao.insertMember(vo);
-//		if(insertCnt==1) {
-//			MailSendHandler msh = new MailSendHandler();
-//			msh.sendActivationEmail(id, email, key);
-//		}
+		int insertCnt = dao.insertMember(mVo);
+		if(insertCnt==1) {
+			MailSendHandler msh = new MailSendHandler();
+			msh.sendActivationEmail(id, email, key);
+		}
 		
-		req.setAttribute("insertCnt", insertCnt);
+		model.addAttribute("insertCnt", insertCnt);
 	}
 	
 	// 회원탈퇴 -> 비밀번호 재확인
-	@Override
-	public void withdrawMemAction(HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("[co][service][withdrawMemAction()]");
-		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
-		String strId = vo.getId();
-		String strPw = req.getParameter("pw");
-		
-		int selectCnt = dao.idPwChk(strId, strPw);
-		int deleteCnt = 0;
-		
-		if (selectCnt==1) {
-			deleteCnt = dao.withrawMember(strId);
-		}
-		req.setAttribute("selectCnt", selectCnt);
-		req.setAttribute("deleteCnt", deleteCnt);
-	}
-
-	// 회원정보 조회
-	@Override
-	public void viewMemInfoAction(HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("[co][service][viewMemInfoAction()]");
-		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
-		String strId = vo.getId();
-		String strPw = req.getParameter("pw");
-		
-		int selectCnt = dao.idPwChk(strId, strPw);
-		
-		if (selectCnt==1) {
-			vo = dao.getMemberInfo(strId);
-		}
-		req.setAttribute("selectCnt", selectCnt);
-		req.setAttribute("dto", vo);
-		
-	}
-	
-	// 회원정보 수정
-	@Override
-	public void updateMemInfoAction(HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("[co][service][updateMemInfoAction()]");
-		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
-		
-		vo.setId(vo.getId());
-		vo.setPw(req.getParameter("pw"));
-		vo.setName(req.getParameter("name"));
-		vo.setEmail(req.getParameter("email"));
-		vo.setPhone(req.getParameter("phone"));
-		
-		int updateCnt = dao.updateMember(vo);
-		
-		req.setAttribute("updateCnt", updateCnt);
-	}
-	
+//	@Override
+//	public void withdrawMemAction(HttpServletRequest req, Model model) {
+//		System.out.println("[co][service][withdrawMemAction()]");
+//		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
+//		String strId = vo.getId();
+//		String strPw = req.getParameter("pw");
+//		
+//		int selectCnt = dao.idPwChk(strId, strPw);
+//		int deleteCnt = 0;
+//		
+//		if (selectCnt==1) {
+//			deleteCnt = dao.withrawMember(strId);
+//		}
+//		req.setAttribute("selectCnt", selectCnt);
+//		req.setAttribute("deleteCnt", deleteCnt);
+//	}
+//
+//	// 회원정보 조회
+//	@Override
+//	public void viewMemInfoAction(HttpServletRequest req, Model model) {
+//		System.out.println("[co][service][viewMemInfoAction()]");
+//		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
+//		String strId = vo.getId();
+//		String strPw = req.getParameter("pw");
+//		
+//		int selectCnt = dao.idPwChk(strId, strPw);
+//		
+//		if (selectCnt==1) {
+//			vo = dao.getMemberInfo(strId);
+//		}
+//		req.setAttribute("selectCnt", selectCnt);
+//		req.setAttribute("dto", vo);
+//		
+//	}
+//	
+//	// 회원정보 수정
+//	@Override
+//	public void updateMemInfoAction(HttpServletRequest req, Model model) {
+//		System.out.println("[co][service][updateMemInfoAction()]");
+//		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
+//		
+//		vo.setId(vo.getId());
+//		vo.setPw(req.getParameter("pw"));
+//		vo.setName(req.getParameter("name"));
+//		vo.setEmail(req.getParameter("email"));
+//		vo.setMobile(req.getParameter("mobile"));
+//		
+//		int updateCnt = dao.updateMember(vo);
+//		
+//		req.setAttribute("updateCnt", updateCnt);
+//	}
+//	
 	// 아이디 권한 활성화
 	@Override
-	public void activateID(HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("[co][service][ActivateID()]");
+	public void activateId(String id, String key, Model model) {
+		System.out.println("[co][service][activateID()]");
 		
-		String key = req.getParameter("key");
-		String id = req.getParameter("id");
-		System.out.println("id:" + id);
-		
-		int selectCnt = dao.idKeyChk(id, key);
+		int selectCnt = dao.idChk(id);
 		int updateCnt = 0;
+		
 		if(selectCnt==1) {
-			updateCnt = dao.updateCondition(id, Code.NORMAL);
+			MemberVO mVo = dao.memberInfo(id);
+			if (key.equals(mVo.getKey())) {
+				updateCnt = dao.updateMemberEnabled(id);
+			}
 		}
 		
-		req.setAttribute("selectCnt", selectCnt);
-		req.setAttribute("updateCnt", updateCnt);
+		model.addAttribute("selectCnt", selectCnt);
+		model.addAttribute("updateCnt", updateCnt);
 	}
 
 }

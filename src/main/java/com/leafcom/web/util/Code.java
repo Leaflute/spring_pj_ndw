@@ -1,4 +1,4 @@
-package com.leafcom.web.uitl;
+package com.leafcom.web.util;
 
 public interface Code {
 	// 관리자 정보
@@ -6,11 +6,14 @@ public interface Code {
 	public final static String PW = "!Q@W#E$R1";
 	
 	// 회원 롤 상수코드
-	public final static int GUEST = 0;	// 일반 회원 
-	public final static int HOST = 1;	// 관리자
+	public final static String USER = "ROLE_USER";	// 일반 회원 
+	public final static String ADMINISTRATOR = "ROLE_ADMIN";// 관리자
+	
+	// 회원 이메일 인증 상수코드
+	public final static int NOT_ACTIVATED = 0;
+	public final static int ACTIVATED = 1;
 	
 	// 회원상태 상수코드
-	public final static int NOT_ACTIVATED = 0;	// 이메일 미인증
 	public final static int NORMAL = 1;		// 정상 회원
 	public final static int REST = 2;		// 휴면 회원
 	public final static int WITHRAWL = 3;	// 탈퇴 회원

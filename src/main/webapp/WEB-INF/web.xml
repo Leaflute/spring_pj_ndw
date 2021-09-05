@@ -80,7 +80,7 @@
 	<!-- 4-5. 에러처리 페이지 -->
 	<error-page>
 		<error-code>500</error-code>
-		<location>/common/login/login</location>
+		<location>/error/error_500.jsp</location>
 	</error-page>
 	<!-- 4-6. 세션 타임 아웃 설정(480분) -->
 	<session-config>

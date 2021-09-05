@@ -10,12 +10,12 @@ public class MemberVO extends User {
 	private String email;
 	private String pw;
 	private String name;
-	private String phone;
+	private String mobile;
 	private Timestamp regDate;
-	private int role;
 	private int condition;
 	private String key;
-	
+	private int enabled;
+	private String authority;
 	
 	public String getId() {
 		return id;
@@ -43,25 +43,17 @@ public class MemberVO extends User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPhone() {
-		return phone;
+	public String getMobile() {
+		return mobile;
 	}
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	public Timestamp getRegDate() {
 		return regDate;
 	}
 	public void setRegDate(Timestamp regDate) {
 		this.regDate = regDate;
-	}
-	
-	public int getRole() {
-		return role;
-	}
-
-	public void setRole(int role) {
-		this.role = role;
 	}
 
 	public int getCondition() {
@@ -78,5 +70,22 @@ public class MemberVO extends User {
 	public void setKey(String key) {
 		this.key = key;
 	}
+
+	public int getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+	
 	
 }

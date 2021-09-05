@@ -3,4 +3,39 @@
 	     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	     
-<mapper namespace="com.leafcom.web.dao.CommonDAO"></mapper>    
+<mapper namespace="com.leafcom.web.dao.CommonDAO">
+
+	<resultMap id="memberMap" type="com.leafcom.web.vo.MemberVO" >
+		<id property="id" column="me_id"/>
+		<result property="email" column="me_email"/>
+		<result property="pw" column="me_pw"/>
+		<result property="name" column="me_name"/>
+		<result property="mobile" column="me_mobile"/>
+		<result property="regDate" column="me_regdate"/>
+		<result property="condition" column="me_condition"/>
+		<result property="key" column="me_key"/>
+		<result property="enabled" column="me_enabled"/>
+		<result property="authority" column="me_authority"/>
+	</resultMap>
+	
+	<select id="idChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) cnt FROM members WHERE me_id = #{strId}
+	</select>
+
+	<select id="memberInfo" parameterType="String" 
+		resultType="com.leafcom.web.vo.MemberVO" resultMap="memberMap">
+		SELECT * FROM members WHERE me_id = #{id}
+	</select>
+	
+	<insert id="insertMember" parameterType="com.leafcom.web.vo.MemberVO">
+		INSERT INTO members (me_id, me_pw, me_name, me_email, me_mobile, 
+			me_regdate, me_authority, me_enabled, me_condition, me_key)
+		VALUES (#{id}, #{pw}, #{name}, #{email}, #{mobile}, 
+			#{regDate}, #{authority}, #{enabled}, #{condition}, #{key})
+	</insert>
+
+	<update id="updateMemberEnabled" parameterType="String">
+		UPDATE members SET me_enabled = 1
+		WHERE me_id = #{id}
+	</update>
+</mapper>    

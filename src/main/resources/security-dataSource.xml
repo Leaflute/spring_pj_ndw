@@ -8,7 +8,7 @@
 	<!-- MyBatis 설정 시작 -->
 	<!-- 컨넥션풀 -->
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:comp/env/jdbc/encrypt_88" />
+		<property name="jndiName" value="java:comp/env/jdbc/springleaf" />
 		<property name="resourceRef" value="true" />
 	</bean>
 	
