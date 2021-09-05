@@ -1,0 +1,258 @@
+1. mybatis 계정 생성
+
+   -- [ 시스템 계정(System) 접속 ] ----------------------------------------------
+   
+   -- 1. 계정 생성
+   -- create user <계정이름> identified by <계정암호> default tablespace users;
+   create user jsp_88 identified by tiger default tablespace users;
+   
+   -- 비밀번호 변경
+   -- alter user <계정이름> identified by <변경 비밀번호>
+   
+   -- 2. 사용자 권한 부여
+   -- grant connect, resource, create view to <계정이름>
+   grant connect, resource, create view to jsp_88;
+   grant create view to jsp_88;
+   -- 3. 락해제
+   -- alter user <계정> account unlock;
+   alter user jsp_88 account unlock;
+
+2. 테이블 생성
+   
+ -- 2.4. 검색테이블 생성-> jsp_88
+ DROP TABLE search_tbl;
+ CREATE TABLE search_tbl(    
+    keyword      VARCHAR2(500)    
+ );
+ 
+ 
+ INSERT INTO search_tbl
+  VALUES ('자바프로그래밍 입문');
+  
+   INSERT INTO search_tbl
+  VALUES ('자바의 정석');
+  
+   INSERT INTO search_tbl
+  VALUES ('자바의 기술');
+  
+   INSERT INTO search_tbl
+  VALUES ('자바 웹을 다루는 기술');
+  
+   INSERT INTO search_tbl
+  VALUES ('자바스크립트 코딩의 기술');
+  
+   INSERT INTO search_tbl
+  VALUES ('자바 취적화');
+  
+  
+   INSERT INTO search_tbl
+  VALUES ('파이썬으로 데이터 주무르기');
+  
+   INSERT INTO search_tbl
+  VALUES ('파이썬 라이브러리를 활용한 머신러닝');
+  
+   INSERT INTO search_tbl
+  VALUES ('JSP 프로그래밍의 이해와 응용');
+  
+    INSERT INTO search_tbl
+  VALUES ('JSP 프로그래밍(초보자를 위한)');
+  
+ COMMIT; 
+ 
+ 
+ SELECT * FROM search_tbl
+  WHERE keyword LIKE '%JSP%';
+  
+
+3. 플젝생성
+   new Spring Legacy Project > 프로젝트명 칩력, Spring MVC Project 선택 > 패키지명(3레벨 이상)입력
+   ==> 패키지명 입력은 반드시 3레벨 이상을 해야 하며, 3레벨이 컨텍스트명이 된다.
+   com.spring.mvcAjax
+   
+ *** 컨텍스명 중복시 1. 플젝우클릭 > properties > Web Project Settings > context root도 수정
+                 2. 톰캣 우클릭 > Add And Remove > 모두 선택후 remove all
+                 3. 톰캣 실행
+                 
+  - HomeController 실행 : 잘 작동되는지 확인
+  
+  - 패키지 생성
+  com.spring.mvcAjax.controller
+  com.spring.mvcAjax.vo
+  com.spring.mvcAjax.service
+  com.spring.mvcAjax.persistence
+
+4. 컨넥션 풀 추가
+servers > Tomcat v8.5 > context.xml에 컨넥션풀 추가
+   <!-- 커넥션풀 : DBCP(DataBase Connection Pool) -->
+    <!-- 88기 JSP mybatis_88 계정 -->
+    <Resource auth="Container"
+       name="jdbc/jsp_88"
+       username="jsp_88"
+       password="tiger"
+       url="jdbc:oracle:thin:@localhost:1521:xe"
+       driverClassName="oracle.jdbc.driver.OracleDriver"
+       maxActive="5"
+       maxWait="1000"
+       type="javax.sql.DataSource"
+       
+    />
+    
+    <!-- DataSourceFactory 에러시 추가 -->
+       컨넥션풀 맨 아래 추가
+    factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+
+5. web.xml에 한글 안깨지도록 추가
+   <!-- 한글 안깨지게 처리 시작 -->
+   <filter>
+      <filter-name>encodingFilter</filter-name>
+      <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+      
+      <init-param>
+         <param-name>encoding</param-name>
+         <param-value>UTF-8</param-value>
+      </init-param>   
+      
+      <init-param>
+         <param-name>forceEncoding</param-name>
+         <param-value>true</param-value>
+      </init-param>
+   </filter>
+   
+   <filter-mapping>
+      <filter-name>encodingFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+   </filter-mapping>
+   <!-- 한글 안깨지게 처리 종료 -->
+   
+6. 1) 자바 설정
+ 
+    Project 우클릭 > properties > Project Facets > java를 1.8로 변경
+   Runtimes 탭에서 Apache Tomcat v8.5클릭 > Apply 버튼
+   
+   Project 우클릭 > properties > Java Build Path > Library 탭 > jre library 선택후 Edit 선택 / 또는 jre library 더블클릭
+   > 세번째 workspace default JRE(jre1.8.0_242) 선택
+   
+   Java compiler - 1.8 버전 확인
+
+   2) pom.xml에 버전 반영
+   * https://spring.io/projects/spring-framework에서 스프링 최신 버전 확인 - v5.3.3
+   
+   <java-version>1.8</java-version>
+   <org.springframework-version>5.1.8.RELEASE</org.springframework-version>
+   
+   * aopalliance-1.0.jar 오류시 추가 => mvnrepository.com에서 aopalliance 검색후 복사해서 추가
+    <!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
+   <dependency>
+       <groupId>aopalliance</groupId>
+       <artifactId>aopalliance</artifactId>
+       <version>1.0</version>
+   </dependency>
+   
+   3) pom.xml에 Mybatis.jar 파일 설정
+   mvnrepository.com에서  4개의 라이브러리를 복사후 pom.xml에 등록하면,
+   maven 중앙 repository로부터 다운로드 후 빌드되어 Maven Dependencies(.m2.repository)에 저장된다.
+   
+   <!-- Mybatis 설정 시작 -->
+   <dependency>
+       <groupId>org.mybatis</groupId>
+       <artifactId>mybatis-spring</artifactId>
+       <version>1.3.2</version>
+   </dependency>
+   
+   <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-jdbc</artifactId>
+       <version>5.1.8.RELEASE</version>
+   </dependency>
+   
+   <dependency>
+       <groupId>org.mybatis</groupId>
+       <artifactId>mybatis</artifactId>
+       <version>3.4.6</version>
+   </dependency>
+   
+   <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-test</artifactId>
+       <version>5.1.8.RELEASE</version>
+       <scope>test</scope>
+   </dependency>
+    <!-- Mybatis 설정 종료 -->
+    
+    ******************************************************
+    4) pom.xml에 json-simple1.1.1.jar, jackson-databind2.9.8.jar 파일 설정
+               에러시 설정 : json-mapper-asl 
+    
+     스프링)
+     mvnrepository.com에서 json-simple 검색-> json.simple -> 1.1.1 버전 선택,  jackson-databind-2.9.7.jar 다운로드
+     
+     jsp)
+    -  mvnrepository.com에서 json-simple 검색-> json.simple -> 1.1.1 버전 선택 > files - view all 클릭 -> json-simple-1.1.1 버전 선택
+                           jackson-databind 검색 > 버전 2.9.8 선택 > files - view all 클릭 > jackson-databind 2.9.8.jar 다운로드
+                ==> WEB-INF/lib 폴더에 붙여넣는다.           
+                          
+   
+    <!-- JSON Converter -->
+   <!-- JSON Converter 설정 시작 -->
+	<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+	<dependency>
+	    <groupId>com.googlecode.json-simple</groupId>
+	    <artifactId>json-simple</artifactId>
+	    <version>1.1.1</version>
+	</dependency>
+
+		
+	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.9.8</version>
+	</dependency>
+
+    <!-- JSON Converter 설정 종료 -->
+    
+    5) src> main> webapp> resources > js 폴더작성 > request.js, jquery-3.5.1.min.js(버전 무관) 추가
+    
+    ******************************************************
+   
+7. Mapper 패키지 작성
+   src>main>resources 폴더에 package 작성
+   src>main>resources 폴더 우클릭 > new > package > mappers
+
+8. src>main>webapp>WEB-INF>spring>appServlet>servlet-context.xml에 MyBatis 설정 추가
+      
+   <!-- MyBatis 설정 시작 -->
+   <!-- 컨넥션풀 -->
+   <beans:bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+      <beans:property name="jndiName" value="java:comp/env/jdbc/mybatis_88" />
+      <beans:property name="resourceRef" value="true" />
+   </beans:bean>
+   
+   <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <beans:property name="dataSource" ref="dataSource" />
+      <beans:property name="mapperLocations" value="classpath:mappers/**/*.xml" />
+   </beans:bean>
+   
+   <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+      <beans:constructor-arg ref="sqlSessionFactory" />
+   </beans:bean>
+   <!-- MyBatis 설정 종료 -->
+
+
+9. Mapper 작성
+   1) mappers 우클릭 > new > Other > xml file > sqlMapper.xml 생성
+   2) mybatis.org > products > 왼쪽 Mybatis2의 docs 링크 클릭 >
+      왼쪽메뉴 : Getting Started > 중간부분
+      
+   
+   <!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    => sqlMapper.xml에 붙여넣는다.    
+    
+    
+ 
+10. Controller, Service, DAOImpl 코드 작성   
+   
+   
+   
