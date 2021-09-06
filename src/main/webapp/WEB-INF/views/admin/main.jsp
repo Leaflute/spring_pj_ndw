@@ -7,18 +7,18 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="${cssPath}article.css">
 <link rel="stylesheet" type="text/css" href="${cssPath}dashboard.css">
-<script src="./asset/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="${jsPath}jquery-3.6.0.min.js" type="text/javascript"></script>
 <title>DashBoard</title>
 </head>
 <body>
-<%@ include file="../include/header.jsp" %> 
+<%@ include file="./header.jsp" %> 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
 			<!-- 좌측 메뉴바 -->
-			<%@ include file="../include/nav.jsp" %> 
+			<%@ include file="./nav.jsp" %> 
 			
 			<!-- section -->
 			<section class="mem_content">

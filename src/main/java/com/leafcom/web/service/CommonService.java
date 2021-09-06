@@ -14,7 +14,7 @@ public interface CommonService {
 	public void idDupChk(HttpServletRequest req, Model model);
 		
 	// 회원가입 처리
-	void signUpAction(String id, String pw, String name, String email, String mobile, Model model);
+	void signUpAction(String id, String pw, String name, String email, String mobile, String auth, Model model);
 	
 	// 아이디 활성화
 	public void activateId(String id, String key, Model model);

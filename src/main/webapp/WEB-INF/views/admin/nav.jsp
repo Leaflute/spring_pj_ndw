@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="./setting.jsp" %>    
+<%@ include file="../include/setting.jsp" %>    
     
 <!DOCTYPE html>
 <html>
@@ -13,23 +13,6 @@
 
 </head>
 <body>
-<c:if test="${sessionScope.member.role!=1}">
-	<nav class="nav_bar">
-		<div id="mem_pic">회원정보 박스
-		</div>
-		<div>
-			<ul>
-				<li class="page_title"><a href="mypage.html">MY페이지</a></li>				
-				<li><a href="viewInfo.co">MY정보관리</a></li>
-				<li><a href="orderList.cu">MY주문관리</a></li>
-				<li><a href="addressList.cu">MY배송지</a></li>
-				<li><a href="myestimate.html">MY견적서</a></li>
-				<li><a href="csList.bo?boardId=1&fullList=false">MY문의</a></li>
-			</ul>
-		</div>
-	</nav>
-</c:if>
-<c:if test="${sessionScope.member.role==1}">	
 	<nav class="nav_bar">
 		<div id="mem_pic">DASHBOARD
 		</div>
@@ -46,6 +29,5 @@
 			</ul>
 		</div>
 	</nav>
-</c:if>	
 </body>
 </html>

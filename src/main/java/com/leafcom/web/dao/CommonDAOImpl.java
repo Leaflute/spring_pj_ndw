@@ -21,8 +21,8 @@ public class CommonDAOImpl implements CommonDAO {
 	
 	// 멤버 정보 반환
 	@Override
-	public MemberVO memberInfo(String strId) {
-		MemberVO mVo = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.memberInfo",strId);
+	public MemberVO memberInfo(String id) {
+		MemberVO mVo = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.memberInfo",id);
 		return mVo;
 	}
 	
@@ -45,7 +45,14 @@ public class CommonDAOImpl implements CommonDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
+	// 장바구니
+	
+	// 장바구니
+	
+	// 장바구니
+	
+	// 장바구니
 
 
 }

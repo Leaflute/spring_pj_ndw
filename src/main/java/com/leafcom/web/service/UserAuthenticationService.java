@@ -42,7 +42,7 @@ public class UserAuthenticationService implements UserDetailsService{
 		System.out.println("아이디 : " + id);
 		// id와 패스워드가 불일치시 null이 넘어오고, 일치시 계정이 넘어온다.
 		// 비밀번호 체크로직은 스프링 시큐리티안에 숨어있다.
-		MemberVO mVo = sqlSession.selectOne("com.leafcom.web.dao.memberInfo",id);
+		MemberVO mVo = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.memberInfo",id);
 		System.out.println("로그인 체크 == >" + mVo);
 		
 		// 인증 실패시 인위적으로 예외 발생

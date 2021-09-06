@@ -10,15 +10,17 @@
 <link rel="stylesheet" type="text/css" href="${cssPath}dashboard.css">
 </head>
 <body>
-<form action="viewInfoAction.co" method="post">
-<%@ include file="../../include/header.jsp" %>
+<form action="memberInfo.cu" method="post">
+<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
+
+<%@ include file="../../common/header.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
-			<%@ include file="../../include/nav.jsp" %>
+			<%@ include file="../nav.jsp" %>
 
 			<!-- section -->
 			<section class="mem_content">

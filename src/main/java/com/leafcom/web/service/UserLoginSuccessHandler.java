@@ -39,18 +39,21 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler{
 		String auth = mVo.getAuthority();
 		
 		int authCnt = 0;
+		String url = "";
 		
 		if(auth.equals("ROLE_USER")) {
 			authCnt = 1;
-		}else {
+			url = "/index.co";
+		} else {
 			authCnt = 0;
+			url = "/admin.ad";
 		}
 		
 		request.setAttribute("msg", msg);
 		request.getSession().setAttribute("member", mVo);
-		request.getSession().setAttribute("roleCnt", authCnt);
+		request.getSession().setAttribute("authCnt", authCnt);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/index.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher(url);
 		
 		rd.forward(request, response);
 	}

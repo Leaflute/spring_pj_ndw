@@ -24,7 +24,7 @@
 			<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
 			<input type="hidden" name="hiddenEmail" value="0">
 			<input type="hidden" name="hiddenId" value="0">
-			<fieldset>
+			<fieldset data-role="controlgroup" data-type="horizontal">
 				<table>
 					<tr>
 						<th class="icon" ><i class="xi-user-o"></i></th>
@@ -60,6 +60,10 @@
 						</td>
 					</tr>
 					<tr>
+						<th><input type="radio" name="auth" value="ROLE_USER" checked>유저</th>
+						<th><input type="radio" name="auth" value="ROLE_ADMIN">관리자</th>
+					</tr>
+					<tr>
 						<td colspan="2" align="center" class="cell_green">
 						<input type="submit" value="회원가입" class="btn_green" style="width:100%;height:100%">
 						</td>
@@ -67,7 +71,7 @@
 					<tr>
 						<td colspan="2" align="center" class="cell_white">
 						<input type="button" value="돌아가기" class="btn_white" style="width:100%;height:100%" onclick="history.back()">
-						</td>
+				 		</td>
 					</tr>
 				</table>
 			</fieldset>
@@ -76,6 +80,6 @@
 	</section>	
 </article>
 
-<%@ include file="../../include/footer.jsp" %>
+<%-- <%@ include file="../../include/footer.jsp" %> --%>
 </body>
 </html>

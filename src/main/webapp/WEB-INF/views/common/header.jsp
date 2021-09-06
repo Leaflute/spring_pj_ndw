@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
-<%@ include file="./setting.jsp" %>    
+<%@ include file="../include/setting.jsp" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +48,6 @@
 <body>
 <!-- header 시작 -->
 <header>
-<c:if test="${sessionScope.member.role!=1}">
 <!-- header 상단 -->
 	
 	<div class="full_width" >
@@ -129,14 +128,6 @@
 			</div>
 		</div>
 	</div>
-</c:if>
-<c:if test="${sessionScope.member.role==1}">
-	<div class="full_width" >
-		<div class="wrapper" id="hd_top">
-			<img src="${imgPath}logo_little.png">			
-		</div>
-	</div>
-</c:if>		
 </header>
 <!-- header 끝 -->
 </body>

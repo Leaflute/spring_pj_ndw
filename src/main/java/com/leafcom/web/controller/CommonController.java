@@ -46,13 +46,6 @@ public class CommonController {
 		return "common/login/login";
 	}
 	
-	//로그인 처리 페이지(스프링 시큐리티가 담당)
-//	@RequestMapping("/loginAction.co")
-//	public String loginAction(HttpServletRequest req, Model model) {
-//		logger.info("[co][cnt][url->loginAction]");
-//		
-//		return "common/login/loginAction";
-//	}
 	
 	// 회원 가입 페이지 로드
 	@RequestMapping("/signUp.co")
@@ -75,11 +68,11 @@ public class CommonController {
 	// 회원가입 처리
 	@RequestMapping("/signUpAction.co")
 	public String signUpAction(@RequestParam String id, @RequestParam String pw, 
-			@RequestParam String name, @RequestParam String email, 
+			@RequestParam String name, @RequestParam String email, @RequestParam String auth,
 			@RequestParam String mobile, Model model) {
 		logger.info("[co][cnt][url->signUpAction]");
 		
-		service.signUpAction(id, pw, name, email, mobile, model);
+		service.signUpAction(id, pw, name, email, mobile, auth, model);
 		
 		return "common/signUp/signUpAction";
 	}
@@ -124,21 +117,41 @@ public class CommonController {
 		return "error/error_403";
 	}
 	
-	// 관리자 페이지로 이동
-	@RequestMapping("/admin.ad")
-	public String admin() {
-		logger.info("[co][cnt][url->admin]");
-		
-		return "admin/main";
-	}
-	
 	// 로그아웃 처리
-	@RequestMapping("/logout.do")
+	@RequestMapping("/logout.co")
 	public String logout(HttpSession session) {
-		logger.info("[co][cnt][url->insertUser]");
+		logger.info("[co][cnt][url->logout]");
 		session.invalidate();
 		
 		return "redirect:/";
 	}
+	
+	// ----------------------------------
+	// 상품 카테고리
+	@RequestMapping("/itemList.co")
+	public String itemList() {
+		logger.info("[co][cnt][url->itemList]");
+		
+		return "common/item/list";
+	}
+	
+	// 상품 상세
+	@RequestMapping("/itemDetail.co")
+	public String itemDetail() {
+		logger.info("[co][cnt][url->itemDetail]");
+		
+		return "customer/item/detail";
+	}
+	
+	// 장바구니 추가 후 리스트 페이지 로드 여부 확인 팝업창
+	@RequestMapping("/cartPop.co")
+	public String cartPop() {
+		logger.info("[co][cnt][url->cartPop]");
+		
+		return "customer/item/cartPop";
+	}
+	
+	// 
+	
 	
 }

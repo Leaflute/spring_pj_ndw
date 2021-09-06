@@ -70,7 +70,7 @@ public class CommonServiceImpl implements CommonService {
 	// 회원가입 - DB INSERT
 	@Override
 	public void signUpAction(String id, String pw, String name, 
-			String email, String mobile, Model model) {
+			String email, String mobile, String auth, Model model) {
 		System.out.println("[co][service][signInActions()]");
 
 		System.out.println("암호화 전의 비밀번호" + pw);
@@ -105,7 +105,7 @@ public class CommonServiceImpl implements CommonService {
 		mVo.setEmail(email);
 		mVo.setMobile(mobile);
 		mVo.setRegDate(new Timestamp(System.currentTimeMillis()));
-		mVo.setAuthority(Code.USER);
+		mVo.setAuthority(auth);
 		mVo.setEnabled(Code.NOT_ACTIVATED);
 		mVo.setCondition(Code.NORMAL);
 		mVo.setKey(key);

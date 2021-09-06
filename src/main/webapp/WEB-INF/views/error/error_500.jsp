@@ -9,7 +9,7 @@
 <title>500 ERROR</title>
 </head>
 <body>
-<%@ include file="../include/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <article class="container">
 <!-- 컨테이너 -->
 	<div class="wrapper">

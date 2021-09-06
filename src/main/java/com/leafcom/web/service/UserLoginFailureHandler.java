@@ -13,6 +13,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import com.leafcom.web.vo.MemberVO;
+
 public class UserLoginFailureHandler implements AuthenticationFailureHandler{
 
 	@Autowired
@@ -38,7 +40,8 @@ public class UserLoginFailureHandler implements AuthenticationFailureHandler{
 		int cnt = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.idChk",strId);
 		if(cnt!=0) {
 			
-			String pw = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.pwChk",strId);
+			MemberVO mVo = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.memberInfo",strId);
+			String pw = mVo.getPw();
 			System.out.println(strPw);
 			System.out.println(pw);
 			System.out.println(passwordEncoder.matches(strPw, pw));

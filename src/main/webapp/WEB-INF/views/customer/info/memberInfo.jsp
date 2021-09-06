@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="../../include/header.jsp" %>
+    <%@ include file="../../include/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,21 +12,22 @@
 <title>My page</title>
 </head>
 <body>
-<%@ include file="../../include/header.jsp" %>
+<%@ include file="../../common/header.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
-			<%@ include file="../../include/nav.jsp" %>
+			<%@ include file="../nav.jsp" %>
 			
 			<!-- section -->
 			<section class="mem_content">
 				<div class="outer_content">
 					<div class="inner_content">
 						<div class="title_letter">MY정보관리</div>
-						<form action="updateMemInfoAction.co" method="post" name="updateForm" onsubmit="return updateFormChk();">
+						<form action="updateAction.cu" method="post" name="updateForm" onsubmit="return updateFormChk();">
+						<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
 						<table>
 							<c:if test="${selectCnt==1}">
 								<tr>

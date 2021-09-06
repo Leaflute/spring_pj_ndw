@@ -5,7 +5,7 @@
 	     
 <mapper namespace="com.leafcom.web.dao.CommonDAO">
 
-	<resultMap id="memberMap" type="com.leafcom.web.vo.MemberVO" >
+	<resultMap id="memberVO" type="com.leafcom.web.vo.MemberVO" >
 		<id property="id" column="me_id"/>
 		<result property="email" column="me_email"/>
 		<result property="pw" column="me_pw"/>
@@ -23,7 +23,7 @@
 	</select>
 
 	<select id="memberInfo" parameterType="String" 
-		resultType="com.leafcom.web.vo.MemberVO" resultMap="memberMap">
+		resultType="com.leafcom.web.vo.MemberVO" resultMap="memberVO">
 		SELECT * FROM members WHERE me_id = #{id}
 	</select>
 	
