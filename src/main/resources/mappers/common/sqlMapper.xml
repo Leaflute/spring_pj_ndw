@@ -18,6 +18,23 @@
 		<result property="authority" column="me_authority"/>
 	</resultMap>
 	
+	<resultMap id="itemVO" type="com.leafcom.web.vo.ItemVO" >
+		<id property="itemId" column="it_id"/>
+		<result property="categoryId" column="cg_id"/>
+		<result property="categoryName" column="cg_name"/>
+		<result property="itemName" column="it_name"/>
+		<result property="company" column="it_company"/>
+		<result property="smallImg" column="it_smallImg"/>
+		<result property="largeImg" column="it_condition"/>
+		<result property="detailImg" column="it_key"/>
+		<result property="regDate" column="it_regDate"/>
+		<result property="info" column="it_info"/>
+		<result property="stock" column="it_stock"/>
+		<result property="cost" column="it_cost"/>
+		<result property="price" column="it_price"/>
+		<result property="grade" column="it_grade"/>
+	</resultMap>
+	
 	<select id="idChk" parameterType="String" resultType="int">
 		SELECT COUNT(*) cnt FROM members WHERE me_id = #{strId}
 	</select>
@@ -38,4 +55,13 @@
 		UPDATE members SET me_enabled = 1
 		WHERE me_id = #{id}
 	</update>
+	
+	<select id="getItemCnt" parameterType="int">
+		SELECT COUNT(*) cnt FROM item
+		<if test="categoryId!=0">
+		WHERE ca_id = #{categoryId}
+		</if>
+	</select>
+	
+	
 </mapper>    

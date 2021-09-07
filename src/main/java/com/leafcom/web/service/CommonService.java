@@ -18,6 +18,22 @@ public interface CommonService {
 	
 	// 아이디 활성화
 	public void activateId(String id, String key, Model model);
+
+	void itemList(HttpServletRequest req, Model model);
+
+	void categoryMap(HttpServletRequest req, Model model);
+
+	void itemDetail(HttpServletRequest req, Model model);
+
+	void cartList(HttpServletRequest req, Model model);
+
+	void loginAddCart(HttpServletRequest req, Model model);
+
+	void addCart(HttpServletRequest req, Model model);
+
+	void updateCart(HttpServletRequest req, Model model);
+
+	void deleteCartList(HttpServletRequest req, Model model);
 	
 //	// 회원탈퇴 처리
 //	public void withdrawMemAction(HttpServletRequest req, Model model);
@@ -28,5 +44,7 @@ public interface CommonService {
 //	// 회원정보 수정
 //	public void updateMemInfoAction(HttpServletRequest req, Model model);
 
+	
+	
 
 }
