@@ -2,6 +2,8 @@ package com.leafcom.web.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.leafcom.web.vo.AddressVO;
@@ -9,41 +11,35 @@ import com.leafcom.web.vo.OrderVO;
 
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
+	
+	@Autowired
+	SqlSession sqlSession;
 
-
-	@Override
-	public int insertOrder(OrderVO oVo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int insertAddress(AddressVO aVo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	// 배송지 리스트
 	@Override
 	public List<AddressVO> addressList(String meId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("com.leafcom.web.dao.CustomerDAO.addressList", meId);
 	}
-
+	
+	// 배송지 추가
+	@Override
+	public int insertAddress(AddressVO aVo) {
+		return sqlSession.insert("com.leafcom.web.dao.CustomerDAO.insertAddress", aVo);
+	}
+	
+	// 배송지 시퀀스 반환
 	@Override
 	public int addressSeq() {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("com.leafcom.web.dao.CustomerDAO.addressSeq");
 	}
 
 	@Override
 	public int updateAddress(AddressVO aVo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("com.leafcom.web.dao.CustomerDAO.updateAddress",aVo);
 	}
 
 	@Override
 	public int deleteAddress(int adId) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -66,6 +62,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return null;
 	}
 
+	@Override
+	public int insertOrder(OrderVO oVo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	@Override
 	public int updateOrder(int odId, int condition) {
 		// TODO Auto-generated method stub

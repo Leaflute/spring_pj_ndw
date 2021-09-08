@@ -18,7 +18,7 @@
 		<result property="authority" column="me_authority"/>
 	</resultMap>
 	
-	<resultMap id="itemVO" type="com.leafcom.web.vo.ItemVO" >
+	<resultMap id="ItemVO" type="com.leafcom.web.vo.ItemVO" >
 		<id property="itemId" column="it_id"/>
 		<result property="categoryId" column="cg_id"/>
 		<result property="categoryName" column="cg_name"/>
@@ -33,6 +33,15 @@
 		<result property="cost" column="it_cost"/>
 		<result property="price" column="it_price"/>
 		<result property="grade" column="it_grade"/>
+	</resultMap>
+
+	<resultMap id="CartVO" type="com.leafcom.web.vo.CartVO">
+		<id property="caId" column="ca_id"/>
+		<result property="meId" column="me_id"/>
+		<result property="itId" column="it_id"/>
+		<result property="amount" column="ca_amount"/>
+		<result property="regDate" column="ca_regdate"/>
+		<result property="condition" column="ca_condition"/>
 	</resultMap>
 	
 	<select id="idChk" parameterType="String" resultType="int">
@@ -56,12 +65,87 @@
 		WHERE me_id = #{id}
 	</update>
 	
-	<select id="getItemCnt" parameterType="int">
+	<select id="getItemCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*) cnt FROM item
 		<if test="categoryId!=0">
 		WHERE ca_id = #{categoryId}
 		</if>
 	</select>
 	
+	<select id="getCategoryMap" resultType="java.util.HashMap">
+		SELECT cg_id categoryId, cg_name categoryName 
+		  FROM categories
+	</select>
+	
+	<select id="getCategoryName" parameterType="int" resultType="String" >
+		SELECT cg_name 
+		  FROM categories 
+		 WHERE cg_id = #{categoryId}
+	</select>
+	
+	<select id="getItemList" resultMap="ItemVO">
+		<![CDATA[
+		SELECT * FROM item_v 
+		WHERE rNum >= #{start} AND rNum <= #{end}
+		]]>
+		<if test="categoryId!=0">
+			AND ca_id = #{categoryId}
+		</if>
+	</select>
+	
+	<select id="getItemDetail" parameterType="int" resultType="com.leafcom.web.vo.ItemVO">
+		SELECT * FROM item_v WHERE it_id = #{itemId}
+	</select>
+	
+	<select id="getCartCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) cnt FROM cart WHERE me_id = #{meId}
+	</select>
+	
+	<select id="cartSeq" resultType="int">
+		SELECT cart_num_seq.nextval csq FROM dual
+	</select>
+	
+	<select id="cartList" parameterType="String" 
+		resultType="com.leafcom.web.vo.CartVO" 
+		resultMap="CartVO">
+		SELECT c.ca_id,
+				c.me_id,
+				c.it_id,
+				c.ca_amount,
+				c.ca_regDate,
+				c.ca_condition,
+				i.it_price itId,
+				i.it_name itName,
+				i.it_small_img smallImg
+		FROM cart c, item i 
+		WHERE c.it_id = i.it_id
+		AND c.me_id = #{meId}
+	</select>
+	
+	<select id="getItIdList" parameterType="String" resultType="Integer">
+		SELECT it_Id FROM cart WHERE me_id = #{meId}
+	</select>
+	
+	<select id="getCartInfo" parameterType="int" resultType="com.leafcom.web.vo.CartVO"
+	resultMap="CartVO">
+		SELECT * FROM cart WHERE ca_id = #{caId}
+	</select>
+	
+	<select id="getCartInfo2" resultType="com.leafcom.web.vo.CartVO">
+		SELECT * FROM cart WHERE me_id = #{meId} AND it_id = #{itId}
+	</select>
+	
+	<update id="updateCart">
+		UPDATE cart SET ca_amount = #{amount} WHERE ca_id = #{caId}
+	</update>
+	
+	<delete id="deleteCart" parameterType="int">
+		DELETE FROM cart WHERE ca_id = #{caId}
+	</delete>
+	
+	<insert id="insertCart" parameterType="com.leafcom.web.vo.CartVO">
+		INSERT INTO cart (ca_id, me_id, it_id, ca_amount, ca_regDate, ca_condition)
+		VALUES (#{caId}, #{meId}, #{itId}, #{amount}, #{regDate}, #{condition})
+	</insert>
 	
 </mapper>    

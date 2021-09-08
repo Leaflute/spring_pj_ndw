@@ -140,7 +140,7 @@ public class CommonController {
 	public String itemDetail() {
 		logger.info("[co][cnt][url->itemDetail]");
 		
-		return "customer/item/detail";
+		return "common/item/detail";
 	}
 	
 	// 장바구니 추가 후 리스트 페이지 로드 여부 확인 팝업창
@@ -148,10 +148,47 @@ public class CommonController {
 	public String cartPop() {
 		logger.info("[co][cnt][url->cartPop]");
 		
-		return "customer/item/cartPop";
+		return "common/item/cartPop";
 	}
 	
-	// 
+	// 장바구니 리스트
+	@RequestMapping("/cartList.co")
+	public String cartList() {
+		logger.info("[co][cnt][url->cartList]");
+		
+		return "commonn/cart/list";
+	}
 	
+	// 장바구니 추가
+	@RequestMapping("/addcart.co")
+	public String addcart() {
+		logger.info("[co][cnt][url->addcart]");
+		
+		return "common/cart/list";
+	}
+	
+	// 장바구니 수량 변경
+	@RequestMapping("/updateCart.co")
+	public String updateCart() {
+		logger.info("[co][cnt][url->updateCart]");
+		
+		return "common/cart/list";
+	}
+	
+	// 장바구니 삭제(개별)
+	@RequestMapping("/deleteCart.co")
+	public String deleteCart() {
+		logger.info("[co][cnt][url->deleteCart]");
+		
+		return "common/cart/list";
+	}
+	
+	// 장바구니 삭제(리스트)	
+	@RequestMapping("/deleteCartList.co")
+	public String deleteCartList() {
+		logger.info("[co][cnt][url->deleteCartList]");
+		
+		return "common/cart/list";
+	}
 	
 }

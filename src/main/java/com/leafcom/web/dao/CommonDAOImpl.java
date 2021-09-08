@@ -1,6 +1,5 @@
 package com.leafcom.web.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,123 +20,108 @@ public class CommonDAOImpl implements CommonDAO {
 	// 아이디 존재여부 확인
 	@Override
 	public int idChk(String strId) {
-		int selectCnt = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.idChk", strId);
-		return selectCnt;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.idChk", strId);
 	}
 	
 	// 멤버 정보 반환
 	@Override
 	public MemberVO memberInfo(String id) {
-		MemberVO mVo = sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.memberInfo",id);
-		return mVo;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.memberInfo",id);
 	}
 	
 	// 멤버 정보 삽입
 	@Override
 	public int insertMember(MemberVO mVo) {
-		int insertCnt = sqlSession.insert("com.leafcom.web.dao.CommonDAO.insertMember", mVo);
-		return insertCnt;
+		return sqlSession.insert("com.leafcom.web.dao.CommonDAO.insertMember", mVo);
 	}
 	
 	// 멤버 Enabled 활성화
 	@Override
 	public int updateMemberEnabled(String id) {
-		int updateCnt = sqlSession.update("com.leafcom.web.dao.CommonDAO.updateMemberEnabled",id);
-		return updateCnt;
+		return sqlSession.update("com.leafcom.web.dao.CommonDAO.updateMemberEnabled",id);
 	}
 
 	@Override
 	public int withrawMember(String id) {
-		int deleteCnt = sqlSession.delete("com.leafcom.web.dao.CommonDAO.deleteMember",id);
-		return deleteCnt;
+		return sqlSession.delete("com.leafcom.web.dao.CommonDAO.deleteMember",id);
 	}
 	
 	// 카테고리별 상품 수
 	@Override
 	public int getItemCnt(int categoryId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getItemCnt",categoryId);
 	}
-
+	
+	// 카테고리 맵
 	@Override
 	public HashMap<Integer, String> getCategoryMap() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getCategoryMap");
 	}
-
+	
+	// 카테고리 id별 카테고리 맵 반환
 	@Override
 	public String getCategoryName(int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getCategoryName", categoryId);
 	}
-
+	
+	// 상품리스트 반환
 	@Override
-	public ArrayList<ItemVO> getItemList(int start, int end, int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ItemVO> getItemList(int start, int end, int categoryId) {
+		return sqlSession.selectList("com.leafcom.web.dao.CommonDAO.getItemList");
 	}
-
+	
+	// 상품 상세정보 반환
 	@Override
 	public ItemVO getItemDetail(int itemId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getItemDetail",itemId);
+	}
+	
+	// 장바구니 숫자 반환
+	@Override
+	public int getCartCnt(String meId) {
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getCartCnt",meId);
+	}
+	
+	// 장바구니 시퀀스 반환
+	@Override
+	public int cartSeq() {
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.cartSeq");
 	}
 
+	// 카트 리스트
 	@Override
 	public List<CartVO> cartList(String meId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("com.leafcom.web.dao.CommonDAO.cartList", meId);
 	}
 
 	@Override
 	public List<Integer> getItIdList(String meId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("com.leafcom.web.dao.CommonDAO.cartList", meId);
 	}
 
 	@Override
 	public CartVO getCartInfo(int caId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getCartInfo", caId);
 	}
 
 	@Override
 	public CartVO getCartInfo2(int itId, String meId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getCartInfo2");
 	}
 	
 	@Override
 	public int updateCart(int caId, int amount) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("com.leafcom.web.dao.CommonDAO.updateCart");
 	}
 
 	@Override
 	public int deleteCart(int caId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getCartCnt(String meId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int cartSeq() {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("com.leafcom.web.dao.CommonDAO.deleteCart",caId);
 	}
 
 	@Override
 	public int insertCart(CartVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("com.leafcom.web.dao.CommonDAO.getCartInfo.insertCart", vo);
 	}
-
-
-	
 
 }

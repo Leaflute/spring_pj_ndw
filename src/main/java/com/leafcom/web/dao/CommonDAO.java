@@ -3,6 +3,9 @@ package com.leafcom.web.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.leafcom.web.vo.CartVO;
 import com.leafcom.web.vo.ItemVO;
@@ -27,11 +30,13 @@ public interface CommonDAO {
 
 	int getItemCnt(int categoryId);
 
-	HashMap<Integer, String> getCategoryMap();
+	Map<Integer, String> getCategoryMap();
 
 	String getCategoryName(int categoryId);
 
-	ArrayList<ItemVO> getItemList(int start, int end, int categoryId);
+	List<ItemVO> getItemList(@Param("start") int start, 
+		@Param("end") int end, 
+		@Param("categoryId") int categoryId);
 
 	ItemVO getItemDetail(int itemId);
 
@@ -41,7 +46,7 @@ public interface CommonDAO {
 
 	CartVO getCartInfo(int caId);
 
-	int updateCart(int caId, int amount);
+	int updateCart(@Param("caId") int caId, @Param("amount") int amount);
 
 	int deleteCart(int caId);
 
@@ -51,6 +56,6 @@ public interface CommonDAO {
 
 	int insertCart(CartVO vo);
 
-	public CartVO getCartInfo2(int itId, String meId);
+	public CartVO getCartInfo2(@Param("itId") int itId, @Param("meId") String meId);
 	
 }

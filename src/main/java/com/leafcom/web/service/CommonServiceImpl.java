@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -245,8 +246,8 @@ public class CommonServiceImpl implements CommonService {
 		System.out.println("endPage: " + endPage);
 		System.out.println("===================");
 		
-		ArrayList<ItemVO> itemDtos= null;
-		HashMap<Integer, String> categoryMap = dao.getCategoryMap();
+		List<ItemVO> itemDtos= null;
+		Map<Integer, String> categoryMap = dao.getCategoryMap();
 		categoryName = dao.getCategoryName(categoryId);
 		
 		if(cnt > 0) {
@@ -274,7 +275,7 @@ public class CommonServiceImpl implements CommonService {
 	@Override
 	public void categoryMap(HttpServletRequest req, Model model) {
 		System.out.println("[cu][service][categoryMap()]");
-		HashMap<Integer, String> categoryMap = dao.getCategoryMap();
+		Map<Integer, String> categoryMap = dao.getCategoryMap();
 		model.addAttribute("categoryMap", categoryMap);
 	}
 		
