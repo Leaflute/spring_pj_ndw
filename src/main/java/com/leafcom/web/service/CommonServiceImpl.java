@@ -247,7 +247,8 @@ public class CommonServiceImpl implements CommonService {
 		System.out.println("===================");
 		
 		List<ItemVO> itemDtos= null;
-		Map<Integer, String> categoryMap = dao.getCategoryMap();
+		ItemVO iVo = new ItemVO();
+		Map<Integer, String> categoryMap = iVo.getCgMap();
 		categoryName = dao.getCategoryName(categoryId);
 		
 		if(cnt > 0) {
@@ -275,7 +276,8 @@ public class CommonServiceImpl implements CommonService {
 	@Override
 	public void categoryMap(HttpServletRequest req, Model model) {
 		System.out.println("[cu][service][categoryMap()]");
-		Map<Integer, String> categoryMap = dao.getCategoryMap();
+		ItemVO iVo = new ItemVO();
+		Map<Integer, String> categoryMap = iVo.getCgMap();
 		model.addAttribute("categoryMap", categoryMap);
 	}
 		

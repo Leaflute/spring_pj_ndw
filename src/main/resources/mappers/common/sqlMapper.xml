@@ -72,11 +72,6 @@
 		</if>
 	</select>
 	
-	<select id="getCategoryMap" resultType="java.util.HashMap">
-		SELECT cg_id categoryId, cg_name categoryName 
-		  FROM categories
-	</select>
-	
 	<select id="getCategoryName" parameterType="int" resultType="String" >
 		SELECT cg_name 
 		  FROM categories 

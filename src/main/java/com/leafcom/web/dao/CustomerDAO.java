@@ -2,6 +2,8 @@ package com.leafcom.web.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.leafcom.web.vo.AddressVO;
 import com.leafcom.web.vo.OrderVO;
 
@@ -25,7 +27,7 @@ public interface CustomerDAO {
 
 	AddressVO getPrimaryAddressInfo(String meId);
 
-	int updateOrder(int odId, int condition);
+	int updateOrder(@Param("odId") int odId, @Param("condition") int condition);
 
 	OrderVO getOrderInfo(int odId);
 	

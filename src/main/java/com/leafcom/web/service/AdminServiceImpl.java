@@ -94,8 +94,9 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("endPage: " + endPage);
 		System.out.println("===================");
 		
-		ArrayList<ItemVO> itemDtos= null;
-		HashMap<Integer, String> categoryMap = dao.getCategoryName();
+		List<ItemVO> itemDtos= null;
+		ItemVO iVo = new ItemVO();
+		Map<Integer, String> categoryMap = iVo.getCgMap();
 		
 		if(cnt > 0) {
 			itemDtos = dao.getItemList(start, end, categoryId);
@@ -136,7 +137,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void categoryMap(HttpServletRequest req, HttpServletResponse res) {
 		System.out.println("[ad][service][categoryMap()]");
-		HashMap<Integer, String> categoryMap = dao.getCategoryName();
+		ItemVO iVo = new ItemVO();
+		Map<Integer, String> categoryMap = iVo.getCgMap();
 		req.setAttribute("categoryMap", categoryMap);
 	}
 	
@@ -146,7 +148,8 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("[ad][service][addItem()]");
 		int categoryId = Integer.parseInt(req.getParameter("categoryId"));
 		
-		HashMap<Integer, String> categoryMap = dao.getCategoryName();
+		ItemVO iVo = new ItemVO();
+		Map<Integer, String> categoryMap = iVo.getCgMap();
 		String categoryName = categoryMap.get(categoryId);
 		
 		String itemName = req.getParameter("itemName");
@@ -189,7 +192,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		int itemId = Integer.parseInt(req.getParameter("itemId"));
 		
-		HashMap<Integer, String> categoryMap = dao.getCategoryName();
+		ItemVO iVo = new ItemVO();
+		Map<Integer, String> categoryMap = iVo.getCgMap();
 		String categoryName = categoryMap.get(categoryId);
 		
 		String itemName = req.getParameter("itemName");

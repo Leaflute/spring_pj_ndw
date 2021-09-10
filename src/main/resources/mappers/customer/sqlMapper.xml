@@ -52,6 +52,16 @@
 		<result property="regDate" column="ca_regdate"/>
 		<result property="condition" column="ca_condition"/>
 	</resultMap>
+	
+	<resultMap id="OrderVO" type="com.leafcom.web.vo.AddressVO">
+		<id property="odId" column="od_id"/>
+		<result property="meId" column="me_id"/>
+		<result property="itId" column="it_id"/>
+		<result property="adId" column="ad_id"/>
+		<result property="quantity" column="od_quantity"/>
+		<result property="regDate" column="od_regdate"/>
+		<result property="condition" column="od_condition"/>
+	</resultMap>
 
 	<select id="addressList" parameterType="String" resultType="com.leafcom.web.vo.AddressVO">
 		SELECT * FROM address WHERE me_id = #{meId} ORDER BY ad_condition DESC
@@ -66,4 +76,59 @@
 	<select id="addressSeq" resultType="int">
 		SELECT address_num_seq.nextval asq FROM dual
 	</select>
+	
+	<update id="updateAddress" parameterType="com.leafcom.web.vo.AddressVO">
+		UPDATE address
+		   SET ad_recipient = #{},
+		       ad_tel = #{tel},
+		       ad_zipcode = #{zipcode},
+		       ad_main = #{main},
+		       ad_detail = #{detail},
+		       ad_condition = #{condition},
+		       WHERE ad_id = #{adId}
+	</update>
+	
+	<delete id="deleteAddress" parameterType="int">
+		DELETE FROM address WHERE ad_id = #{adId}
+	</delete>
+	
+	<select id="getAddressInfo" parameterType="String" resultMap="AddressVO"
+	resultType="com.leafcom.web.vo.AddressVO"> 
+		SELECT * FROM address WHERE me_id = #{meId}
+	</select>
+	
+	<select id="getPrimaryAddressInfo" parameterType="String" resultMap="AddressVO"
+	resultType="com.leafcom.web.vo.AddressVO"> 
+		SELECT * FROM address WHERE me_id = #{meId} AND condition = 1
+	</select>
+	
+	<select id="orderList" parameterType="int" resultMap="com.leafcom.web.vo.OrderVO"
+	resultType="com.leafcom.web.vo.OrderVO">
+		SELECT o.od_id,
+			   o.me_id,
+			   o.it_id,
+			   o.ad_id,
+			   o.od_quantity,
+			   o.od_regDate,
+			   o.od_condition,
+			   i.it_price price,
+			   i.it_name itName,
+			   i.it_small_img smallImg
+			   FROM orders o, item i
+			   WHERE o.it_id = i.it_id
+			   AND o.me_id = #{meId}
+	</select>
+	
+	<select id="getOrderInfo" parameterType="int" resultMap="com.leafcom.web.vo.OrderVO">
+		SELECT * FROM orders WHERE od_id = ?
+	</select>
+	
+	<insert id="insertOrder" parameterType="com.leafcom.web.vo.OrderVO">
+		INSERT INTO orders (od_id, ad_id, me_id, it_id, od_condition, od_quantity, od_regdate)
+		VALUES (order_num_seq.nextval, #{adId}, #{meId, #{itId}, #{condition}, #{quantity}, #{regDate})
+	</insert>
+	
+	<update id="updateOrder" >
+		UPDATE orders SET od_condition = #{condition} WHERE od_id = #{odId}
+	</update>
 </mapper>    

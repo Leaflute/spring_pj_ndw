@@ -1,6 +1,10 @@
 package com.leafcom.web.vo;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.leafcom.web.util.Code;
 
 public class ItemVO implements Cloneable {
 	
@@ -20,6 +24,7 @@ public class ItemVO implements Cloneable {
 	private int cost;
 	private int price;
 	private double grade;
+	private Map<Integer,String> cgMap;
 	
 	public int getItemId() {
 		return itemId;
@@ -132,9 +137,19 @@ public class ItemVO implements Cloneable {
 	public void setGrade(double grade) {
 		this.grade = grade;
 	}
-
-	@Override
-	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+	
+	public Map<Integer, String> getCgMap() {
+		this.cgMap = new HashMap<Integer,String>();
+		cgMap.put(Code.CPU, "CPU");
+		cgMap.put(Code.RAM, "RAM");
+		cgMap.put(Code.MBD, "메인보드");
+		cgMap.put(Code.GPU, "그래픽카드");
+		cgMap.put(Code.PWS, "파워서플라이");
+		cgMap.put(Code.SSD, "SSD");
+		cgMap.put(Code.HDD, "HDD");
+		cgMap.put(Code.CSE, "케이스");
+		cgMap.put(Code.MNT, "모니터");
+		return cgMap;
 	}
+
 }

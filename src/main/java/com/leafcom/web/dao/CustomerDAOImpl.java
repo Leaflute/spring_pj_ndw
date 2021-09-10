@@ -32,52 +32,54 @@ public class CustomerDAOImpl implements CustomerDAO {
 	public int addressSeq() {
 		return sqlSession.selectOne("com.leafcom.web.dao.CustomerDAO.addressSeq");
 	}
-
+	
+	// 배송지 업데이트
 	@Override
 	public int updateAddress(AddressVO aVo) {
 		return sqlSession.update("com.leafcom.web.dao.CustomerDAO.updateAddress",aVo);
 	}
-
+	
+	// 배송지 삭제
 	@Override
 	public int deleteAddress(int adId) {
-		return 0;
-	}
-
-	@Override
-	public List<OrderVO> orderList(String meId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AddressVO getAddressInfo(int adId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public AddressVO getPrimaryAddressInfo(String meId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int insertOrder(OrderVO oVo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("com.leafcom.web.dao.CustomerDAO.deleteAddress",adId);
 	}
 	
+	// 배송지 상세 정보
 	@Override
-	public int updateOrder(int odId, int condition) {
-		// TODO Auto-generated method stub
-		return 0;
+	public AddressVO getAddressInfo(int adId) {
+		return sqlSession.selectOne("com.leafcom.web.dao.CustomerDAO.getAddressInfo",adId);
 	}
-
+	
+	// 기본 배송지 정보
+	@Override
+	public AddressVO getPrimaryAddressInfo(String meId) {
+		return sqlSession.selectOne("com.leafcom.web.dao.CustomerDAO.getPrimaryAddressInfo",meId);
+	}
+	
+	// 주문 리스트
+	@Override
+	public List<OrderVO> orderList(String meId) {
+		return sqlSession.selectList("com.leafcom.web.dao.CustomerDAO.orderList", meId);
+	}
+	
+	// 주문 상세
 	@Override
 	public OrderVO getOrderInfo(int odId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.CustomerDAO.updateOrder",odId);
 	}
+	
+	// 주문하기
+	@Override
+	public int insertOrder(OrderVO oVo) {
+		return sqlSession.insert("com.leafcom.web.dao.CustomerDAO.insertOrder",oVo);
+	}
+	
+	// 주문 상태 변경
+	@Override
+	public int updateOrder(int odId, int condition) {
+		return sqlSession.update("com.leafcom.web.dao.CustomerDAO.updateOrder");
+	}
+
 
 }

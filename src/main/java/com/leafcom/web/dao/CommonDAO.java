@@ -30,8 +30,6 @@ public interface CommonDAO {
 
 	int getItemCnt(int categoryId);
 
-	Map<Integer, String> getCategoryMap();
-
 	String getCategoryName(int categoryId);
 
 	List<ItemVO> getItemList(@Param("start") int start, 

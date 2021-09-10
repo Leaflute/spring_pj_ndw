@@ -20,7 +20,7 @@ public class OrderVO {
 	String itName;
 	String smallImg;
 	
-	private Map<Integer,String> odConMap = null;
+	private Map<Integer,String> odConMap;
 	
 	public int getOdId() {
 		return odId;

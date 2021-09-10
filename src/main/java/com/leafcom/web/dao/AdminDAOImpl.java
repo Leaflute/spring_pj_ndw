@@ -1,9 +1,11 @@
 package com.leafcom.web.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.leafcom.web.vo.ItemVO;
@@ -13,88 +15,72 @@ import com.leafcom.web.vo.ReportVO;
 @Repository
 public class AdminDAOImpl implements AdminDAO {
 
+	@Autowired
+	SqlSession sqlSession;
+	
 	@Override
 	public int getItemCnt(int categoryId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt", categoryId);
 	}
 
 	@Override
-	public HashMap<Integer, String> getCategoryName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<ItemVO> getItemList(int start, int end, int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ItemVO> getItemList(int start, int end, int categoryId) {
+		return sqlSession.selectList("com.leafcom.web.dao.AdminDAO.getItemCnt.getItemList");
 	}
 
 	@Override
 	public ItemVO getItemDetail(int itemId, int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.getItemDetail");
 	}
 
 	@Override
-	public int insertItem(ItemVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertItem(ItemVO iVo) {
+		return sqlSession.insert("com.leafcom.web.dao.AdminDAO.getItemCnt.insertItem",iVo);
 	}
 
 	@Override
-	public int updateItem(ItemVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateItem(ItemVO iVo) {
+		return sqlSession.update("com.leafcom.web.dao.AdminDAO.getItemCnt.updateItem",iVo);
 	}
 
 	@Override
 	public int deleteItem(int itemId) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("com.leafcom.web.dao.AdminDAO.getItemCnt.deleteItem",itemId);
 	}
 
 	@Override
 	public int getOrderCnt(int condition) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.getOrderCnt",condition);
 	}
 
 	@Override
 	public List<OrderVO> orderList(int start, int end, int condition) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("com.leafcom.web.dao.AdminDAO.getItemCnt.orderList");
 	}
 
 	@Override
 	public int updateOrder(int odId, int condition) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("com.leafcom.web.dao.AdminDAO.getItemCnt.updateOrder");
 	}
 
 	@Override
 	public int stockReduce(int itId, int quantity) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("com.leafcom.web.dao.AdminDAO.getItemCnt.stockReduce");
 	}
 
 	@Override
 	public int stockIncrease(int itId, int quantity) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("com.leafcom.web.dao.AdminDAO.getItemCnt.stockIncrease");
 	}
 
 	@Override
 	public OrderVO orderInfo(int odId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.orderInfo", odId);
 	}
 
 	@Override
 	public List<ReportVO> fiveDayReport() {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("com.leafcom.web.dao.AdminDAO.getItemCnt.orderInfo");
 	}
 
 }

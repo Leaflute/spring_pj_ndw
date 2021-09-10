@@ -52,12 +52,6 @@ public class CommonDAOImpl implements CommonDAO {
 		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getItemCnt",categoryId);
 	}
 	
-	// 카테고리 맵
-	@Override
-	public HashMap<Integer, String> getCategoryMap() {
-		return sqlSession.selectOne("com.leafcom.web.dao.CommonDAO.getCategoryMap");
-	}
-	
 	// 카테고리 id별 카테고리 맵 반환
 	@Override
 	public String getCategoryName(int categoryId) {
