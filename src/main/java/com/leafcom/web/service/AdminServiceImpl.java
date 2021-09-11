@@ -1,8 +1,6 @@
 package com.leafcom.web.service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.leafcom.web.dao.AdminDAOImpl;
 import com.leafcom.web.util.Code;
@@ -27,7 +26,7 @@ public class AdminServiceImpl implements AdminService {
 
 	// 상품 리스트
 	@Override
-	public void itemList(HttpServletRequest req, HttpServletResponse res) {
+	public void itemList(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][itemList()]");
 		int categoryId = 0;
 		
@@ -120,13 +119,13 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 상품 상세 정보
 	@Override
-	public void itemDetail(HttpServletRequest req, HttpServletResponse res) {
+	public void itemDetail(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][itemDetail()]");
 		int categoryId = Integer.parseInt(req.getParameter("categoryId"));
 		int itemId = Integer.parseInt(req.getParameter("itemId"));
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
 		
-		ItemVO vo = dao.getItemDetail(itemId,categoryId);
+		ItemVO vo = dao.getItemDetail(itemId);
 		
 		req.setAttribute("dto", vo);
 		req.setAttribute("pageNum", pageNum);
@@ -135,7 +134,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 카테고리 맵 가져오기
 	@Override
-	public void categoryMap(HttpServletRequest req, HttpServletResponse res) {
+	public void categoryMap(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][categoryMap()]");
 		ItemVO iVo = new ItemVO();
 		Map<Integer, String> categoryMap = iVo.getCgMap();
@@ -144,7 +143,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 상품 추가 처리
 	@Override
-	public void addItem(HttpServletRequest req, HttpServletResponse res) {
+	public void addItem(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][addItem()]");
 		int categoryId = Integer.parseInt(req.getParameter("categoryId"));
 		
@@ -185,7 +184,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 상품 수정 처리
 	@Override
-	public void updateItem(HttpServletRequest req, HttpServletResponse res) {
+	public void updateItem(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][updateItem()]");
 		int categoryId = Integer.parseInt(req.getParameter("categoryId"));
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
@@ -252,7 +251,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 상품 삭제 처리
 	@Override
-	public void deleteItem(HttpServletRequest req, HttpServletResponse res) {
+	public void deleteItem(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][deleteItem()]");
 		int itemId = Integer.parseInt(req.getParameter("itemId"));
 		int categoryId = Integer.parseInt(req.getParameter("categoryId"));
@@ -266,7 +265,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 주문 목록
 	@Override
-	public void orderList(HttpServletRequest req, HttpServletResponse res) {
+	public void orderList(HttpServletRequest req, Model model) {
 		int pageSize = 8; 		// 한 페이지당 출력할 글 개수
 		int pageBlock = 5;		// 한 블럭당 페이지 개수
 		
@@ -354,7 +353,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 주문 상태 변경(구매 승인, 배송중, 배송완료, 환불 승인)
 	@Override
-	public void updateOrder(HttpServletRequest req, HttpServletResponse res) {
+	public void updateOrder(HttpServletRequest req, Model model) {
 		int odId = Integer.parseInt(req.getParameter("odId"));
 		int condition = Integer.parseInt(req.getParameter("condition"));
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
@@ -377,7 +376,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	// 결산 항목 호출
 	@Override
-	public void fiveDayReport(HttpServletRequest req, HttpServletResponse res) {
+	public void fiveDayReport(HttpServletRequest req, Model model) {
 		System.out.println("[ad][service][fiveDayReport()]");
 		List<ReportVO> reportList = dao.fiveDayReport();
 		int i = 0;

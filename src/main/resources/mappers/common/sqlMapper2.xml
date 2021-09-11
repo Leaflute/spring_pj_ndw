@@ -65,6 +65,19 @@
 		WHERE me_id = #{id}
 	</update>
 	
+	<update id="updateMember" parameterType="com.leafcom.web.vo.MemberVO">
+		UPDATE members 
+		SET me_pw = #{pw}, 
+			me_name = #{name}, 
+			me_email = #{email}, 
+			me_mobile = #{mobile}, 
+			WHERE me_id = #{id}
+	</update> 
+	
+	<delete id="withrawMember" parameterType="String">
+		DELETE members WHERE me_id = #{id}
+	</delete>
+	
 	<select id="getItemCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*) cnt FROM item
 		<if test="categoryId!=0">

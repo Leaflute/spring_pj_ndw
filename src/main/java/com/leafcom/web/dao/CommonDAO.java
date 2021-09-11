@@ -55,5 +55,7 @@ public interface CommonDAO {
 	int insertCart(CartVO vo);
 
 	public CartVO getCartInfo2(@Param("itId") int itId, @Param("meId") String meId);
+
+	public int updateMember(MemberVO vo);
 	
 }

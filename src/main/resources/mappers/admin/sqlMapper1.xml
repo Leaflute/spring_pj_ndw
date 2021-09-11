@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper
+	     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	     
+<mapper namespace="com.leafcom.web.dao.AdminDAO">
+
+	<resultMap id="memberVO" type="com.leafcom.web.vo.MemberVO" >
+		<id property="id" column="me_id"/>
+		<result property="email" column="me_email"/>
+		<result property="pw" column="me_pw"/>
+		<result property="name" column="me_name"/>
+		<result property="mobile" column="me_mobile"/>
+		<result property="regDate" column="me_regdate"/>
+		<result property="condition" column="me_condition"/>
+		<result property="key" column="me_key"/>
+		<result property="enabled" column="me_enabled"/>
+		<result property="authority" column="me_authority"/>
+	</resultMap>
+	
+	<resultMap id="ItemVO" type="com.leafcom.web.vo.ItemVO" >
+		<id property="itemId" column="it_id"/>
+		<result property="categoryId" column="cg_id"/>
+		<result property="categoryName" column="cg_name"/>
+		<result property="itemName" column="it_name"/>
+		<result property="company" column="it_company"/>
+		<result property="smallImg" column="it_smallImg"/>
+		<result property="largeImg" column="it_condition"/>
+		<result property="detailImg" column="it_key"/>
+		<result property="regDate" column="it_regDate"/>
+		<result property="info" column="it_info"/>
+		<result property="stock" column="it_stock"/>
+		<result property="cost" column="it_cost"/>
+		<result property="price" column="it_price"/>
+		<result property="grade" column="it_grade"/>
+	</resultMap>
+
+	<resultMap id="CartVO" type="com.leafcom.web.vo.CartVO">
+		<id property="caId" column="ca_id"/>
+		<result property="meId" column="me_id"/>
+		<result property="itId" column="it_id"/>
+		<result property="amount" column="ca_amount"/>
+		<result property="regDate" column="ca_regdate"/>
+		<result property="condition" column="ca_condition"/>
+	</resultMap>
+
+	<resultMap id="OrderVO" type="com.leafcom.web.vo.AddressVO">
+		<id property="odId" column="od_id"/>
+		<result property="meId" column="me_id"/>
+		<result property="itId" column="it_id"/>
+		<result property="adId" column="ad_id"/>
+		<result property="quantity" column="od_quantity"/>
+		<result property="regDate" column="od_regdate"/>
+		<result property="condition" column="od_condition"/>
+	</resultMap>	
+	
+	<select id="getItemCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) cnt FROM item
+		<if test="categoryId!=0">
+			WHERE cg_id = #{categoryId}
+		</if>
+	</select>
+	
+	<select id="getItemList" resultType="com.leafcom.web.vo.ItemVO" resultMap="ItemVO">
+		SELECT * FROM item_v
+		<if test="categoryId==0">
+			<![CDATA[
+				WHERE rNum >= #{start} AND rNum <=#{end}
+			]]>
+		</if>
+		<if test="categoryId!=0">
+			<![CDATA[
+				WHERE rNum >= #{start} AND rNum <=#{end} AND cg_id = #{categoryId}
+			]]>
+		</if>		
+	</select>
+	
+	<select id="getItemDetail" resultType="ItemVO">
+		SELECT * FROM item_v WHERE it_id = #{itemId}
+	</select>
+	
+	<insert id="insertItem" parameterType="com.leafcom.web.vo.ItemVO">
+		INSERT INTO item VALUES (
+		<choose>
+			<when test="categoryId==1">
+				cpu
+			</when>
+			<when test="categoryId==2">
+				ram
+			</when>
+			<when test="categoryId==3">
+				mbd
+			</when>
+			<when test="categoryId==4">
+				gpu
+			</when>
+			<when test="categoryId==5">
+				pws
+			</when>
+			<when test="categoryId==6">
+				ssd
+			</when>
+			<when test="categoryId==7">
+				hdd
+			</when>
+			<when test="categoryId==8">
+				cse
+			</when>
+			<when test="categoryId==9">
+				mnt
+			</when>
+			<otherwise/>
+		</choose>
+		_num_seq.nextval, #{categoryId}, #{itemName}, #{company}, #{smallImg}, #{largeImg}, #{detailImg}, #{regDate}, #{info}, #{stock}, #{cost}, #{price}, 0)
+	</insert>
+	
+	<update id="updateItem" parameterType="com.leafcom.web.vo.ItemVO">
+		UPDATE item 
+		SET		cg_id = #{categoryId},
+				it_name = #{itemName},
+				it_company = #{company},
+				it_small_img = #{smallImg},
+				it_large_img = #{largeImg}, 
+				it_detail_img = #{detailImg}, 
+				it_regdate = #{regDate}, 
+				it_info = #{info}, 
+				it_stock = #{stock}, 
+				it_cost = #{cost}, 
+				it_price = #{price}, 
+				it_grade = #{grade} 
+		WHERE it_id = {itemId}
+	</update>
+	
+	<delete id="deleteItem" parameterType="int">
+		DELETE FROM item WHERE it_id = #{itemId}
+	</delete>
+	
+	<select id="getOrderCnt" parameterType="int">
+		SELECT COUNT(*) cnt FROM orders
+		<if test="condition!=0">
+			WHERE od_condition = #{condition}
+		</if>
+	</select>
+	
+	<select id="orderList" resultType="com.leafcom.web.vo.OrderVO">
+		SELECT * FROM order_v
+		<if test="condition==0">
+			<![CDATA[
+				WHERE rNum >= #{start} AND rNum <= #{end}
+			]]>
+		</if>
+		<if test="condition!=0">
+			<![CDATA[
+				WHERE rNum >= #{start} AND rNum <= #{end} AND od_condition = #{condition}
+			]]>
+		</if>
+	</select>
+	
+	<select id="orderInfo" parameterType="int" resultType="">
+		SELECT * FROM orders WHERE od_id = #{odId}
+	</select>
+	
+	<update id="updateOrder">
+		UPDATE orders  SET od_condition = #{condition} WHERE od_id = #{odId}
+	</update>
+	
+	<update id="stockReduce">
+		{call item_stock_minus(#{itId},#{quantity})} 
+	</update>
+	
+	<update id="stockIncrease">
+		{call item_stock_plus(#{itId},#{quantity})}
+	</update>
+	
+	<select id="fiveDayReport" resultType="com.leafcom.web.vo.ResultVO">
+		SELECT SUM(i.it_price * o.od_quantity) sales,
+			   SUM((i.it_price - i.it_cost) * o.od_quantity) margin,
+			   TO_CHAR(o.od_regdate,'yyyy-fmmm-dd') odate,
+			   FROM orders o, item i
+			   WHERE o.it_id = i.it_id\r\n
+			   AND o.od_condition = 9
+			   AND o.od_regdate BETWEEN sysdate-5 AND sysdate
+			   GROUP BY TO_CHAR(o.od_regdate,'yyyy-fmmm-dd')"
+	</select>
+	
+</mapper>    

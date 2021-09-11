@@ -14,7 +14,7 @@
 <body>
 <form action="buyNow.cu" method="Post" name="itemform">
 <input type="hidden" name="itemId" id="itemId" value="${dto.itemId}">
-<%@ include file="../../include/header.jsp" %>
+<%@ include file="../../common/header.jsp" %>
 <!-- article 시작 -->
 <article class="container">
 	<!-- section -->

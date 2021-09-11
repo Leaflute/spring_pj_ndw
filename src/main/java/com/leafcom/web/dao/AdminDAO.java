@@ -1,9 +1,6 @@
 package com.leafcom.web.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +17,7 @@ public interface AdminDAO {
 	public List<ItemVO> getItemList(int start, int end, int categoryId);
 	
 	// 상품 상세 페이지
- 	public ItemVO getItemDetail(@Param("itemId") int itemId, @Param("categoryId") int categoryId);
+ 	public ItemVO getItemDetail(int itemId);
 	
 	// 상품 추가
 	public int insertItem(ItemVO vo);

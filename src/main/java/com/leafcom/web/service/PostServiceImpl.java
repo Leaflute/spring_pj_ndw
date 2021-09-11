@@ -2,6 +2,7 @@ package com.leafcom.web.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,7 +91,7 @@ public class PostServiceImpl implements PostService {
 		System.out.println("endPage: " + endPage);
 		System.out.println("===================");
 		
-		ArrayList<PostVO> dtos = null;
+		List<PostVO> dtos = null;
 		
 		// 5-2단계. 게시글 목록 조회
 		if(cnt > 0) {
@@ -149,11 +150,13 @@ public class PostServiceImpl implements PostService {
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
 		boolean fullList = Boolean.parseBoolean(req.getParameter("fullList"));
 		
-		vo.setPostNum(Integer.parseInt(req.getParameter("num")));
+		int num = Integer.parseInt(req.getParameter("num"));
+		int ref = Integer.parseInt(req.getParameter("ref"));
+		int refStep = Integer.parseInt(req.getParameter("refStep"));
+		int refLevel =  Integer.parseInt(req.getParameter("refLevel"));
+		
+		vo.setPostNum(num);
 		vo.setBoardId(boardId);
-		vo.setRef(Integer.parseInt(req.getParameter("ref")));
-		vo.setRefStep(Integer.parseInt(req.getParameter("refStep")));
-		vo.setRefLevel(Integer.parseInt(req.getParameter("refLevel")));
 		
 		MemberVO mVo = (MemberVO)req.getSession().getAttribute("member");
 		vo.setMeId(mVo.getId());
@@ -162,10 +165,21 @@ public class PostServiceImpl implements PostService {
 		vo.setContent(req.getParameter("content"));
 		
 		vo.setRegDate(new Timestamp(System.currentTimeMillis()));
-		// 화면 실행시 url의 localhost 대신 본인 IP를 넣으면 그 ip가 db에 insert된다. 
 		vo.setIp(req.getRemoteAddr());
 		vo.setCondition(0);
+		
+		int refCnt = 0;
+		
+		if (num!=0) {
+			refCnt = dao.updateRef(vo);
+			refStep++;
+			refLevel++;
+		}
 
+		vo.setRef(ref);
+		vo.setRefStep(refStep);
+		vo.setRefLevel(refLevel);
+		
 		int insertCnt = dao.insertPost(vo);
 		
 		req.setAttribute("insertCnt", insertCnt);
@@ -208,8 +222,21 @@ public class PostServiceImpl implements PostService {
 		
 		int deleteCnt = 0; 
 		
-		deleteCnt = dao.deletePost(num);
+		PostVO pVo = dao.getPostDetail(num);
+		int ref = pVo.getRef();
+		int refStep = pVo.getRefStep();
+		int refLevel = pVo.getRefLevel();
 		
+		int cnt = 0;
+		
+		cnt = dao.hasReply(ref, refStep, refLevel);
+		
+		if (cnt>0) {
+			deleteCnt = dao.deletePostRef(pVo);
+		} else {
+			deleteCnt = dao.deletePost(pVo);
+		}
+			
 		req.setAttribute("pageNum", pageNum);
 		req.setAttribute("deleteCnt", deleteCnt);
 		req.setAttribute("boardId", boardId);

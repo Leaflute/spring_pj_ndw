@@ -7,9 +7,6 @@ import org.springframework.ui.Model;
 
 public interface CommonService {
 	
-	// 로그인 처리
-//	public void loginAction(HttpServletRequest req, Model model);
-	
 	// 아이디 중복확인
 	public void idDupChk(HttpServletRequest req, Model model);
 		
@@ -34,17 +31,5 @@ public interface CommonService {
 	void updateCart(HttpServletRequest req, Model model);
 
 	void deleteCartList(HttpServletRequest req, Model model);
-	
-//	// 회원탈퇴 처리
-//	public void withdrawMemAction(HttpServletRequest req, Model model);
-//	
-//	// 회원정보 출력
-//	public void viewMemInfoAction(HttpServletRequest req, Model model);
-//	
-//	// 회원정보 수정
-//	public void updateMemInfoAction(HttpServletRequest req, Model model);
-
-	
-	
 
 }

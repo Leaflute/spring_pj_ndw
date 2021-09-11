@@ -22,7 +22,7 @@ public class CustomerController {
 	
 	// 회원정보 수정 페이지 비밀번호 인증 페이지 로드
 	@RequestMapping("/pwChk.cu")
-	public String pwChk() {
+	public String pwChk(HttpServletRequest req, Model model) {
 		logger.info("[cu][cnt][url->pwChk]");
 		
 		return "customer/info/pwChk";
@@ -30,16 +30,20 @@ public class CustomerController {
 	
 	// 회원정보 조회와 동시에 수정
 	@RequestMapping("/memberInfo.cu")
-	public String memberInfo() {
+	public String memberInfo(HttpServletRequest req, Model model) {
 		logger.info("[cu][cnt][url->memberInfo]");
+		
+		service.viewMemInfoAction(req, model);
 		
 		return "customer/info/memberInfo";
 	}
 	
 	// 회원정보 수정처리
 	@RequestMapping("/updateAction.cu")
-	public String updateAction() {
+	public String updateAction(HttpServletRequest req, Model model) {
 		logger.info("[cu][cnt][url->updateAction]");
+		
+		service.updateMemInfoAction(req, model);
 		
 		return "customer/info/updateAction";
 	}
@@ -54,7 +58,7 @@ public class CustomerController {
 	
 	// 배송지 추가
 	@RequestMapping("/addAddress.cu")
-	public String addAddress() {
+	public String addAddress(HttpServletRequest req, Model model) {
 		logger.info("[cu][cnt][url->addAddress]");
 		
 		return "customer/address/add";
@@ -138,8 +142,10 @@ public class CustomerController {
 	
 	// 주문 목록
 	@RequestMapping("/orderList.cu")
-	public String orderList() {
+	public String orderList(HttpServletRequest req, Model model) {
 		logger.info("[cu][cnt][url->orderList]");
+		
+		service.orderList(req, model);
 		
 		return "customer/order/orderList";
 	}

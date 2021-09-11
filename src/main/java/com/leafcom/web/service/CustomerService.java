@@ -28,6 +28,12 @@ public interface CustomerService {
 	void orderList(HttpServletRequest req, Model model);
 
 	void updateOrder(HttpServletRequest req, Model model);
+
+	void withdrawMemAction(HttpServletRequest req, Model model);
+
+	void viewMemInfoAction(HttpServletRequest req, Model model);
+
+	void updateMemInfoAction(HttpServletRequest req, Model model);
 	
 	
 	

@@ -13,7 +13,7 @@
 </head>
 <body>
 <form action="buyNow.cu" method="post" name="itemform">
-<%@ include file="../../include/header.jsp" %>
+<%@ include file="../../common/header.jsp" %>
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

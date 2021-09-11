@@ -1,16 +1,18 @@
 package com.leafcom.web.dao;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.leafcom.web.vo.PostVO;
 
 public interface PostDAO {
 	
 	// 게시글 개수 구하기
-	public int getPostCount(int boardId, boolean fullList, String writer);
+	public int getPostCount(@Param("boardId")int boardId, @Param("fullList") boolean fullList, @Param("writer") String writer);
 	
 	// 게시글 목록 조회
-	public ArrayList<PostVO> getPostList(int start, int end, int boardId, boolean fullList, String writer);
+	public List<PostVO> getPostList(@Param("start")int start, @Param("end") int end, @Param("boardId") int boardId, @Param("fullList") boolean fullList, @Param("writer") String writer);
 
 	// 조회수 증가
 	public void addPostHit(int num);
@@ -19,7 +21,7 @@ public interface PostDAO {
 	public PostVO getPostDetail(int num);
 	
 	// 게시글 인증 - 수정
-	public int chkWriter(int num, String writer);
+	public int chkWriter(@Param("num")int num, @Param("writer") String writer);
 	
 	// 게시글 수정 처리
 	public int updatePost(PostVO vo);
@@ -28,5 +30,11 @@ public interface PostDAO {
 	public int insertPost(PostVO vo);
 	
 	// 게시글 인증 - 삭제
-	public int deletePost(int num);
+	public int deletePost(PostVO vo);
+
+	int updateRef(PostVO vo);
+
+	public int hasReply(@Param("ref") int ref, @Param("refStep") int refStep, @Param("refLevel") int refLevel);
+
+	public int deletePostRef(PostVO pVo);
 }

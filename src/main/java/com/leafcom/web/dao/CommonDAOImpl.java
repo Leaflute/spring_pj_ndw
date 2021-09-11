@@ -43,7 +43,12 @@ public class CommonDAOImpl implements CommonDAO {
 
 	@Override
 	public int withrawMember(String id) {
-		return sqlSession.delete("com.leafcom.web.dao.CommonDAO.deleteMember",id);
+		return sqlSession.delete("com.leafcom.web.dao.CommonDAO.withrawMember",id);
+	}
+
+	@Override
+	public int updateMember(MemberVO vo) {
+		return sqlSession.update("com.leafcom.web.dao.CommonDAO.updateMember",vo);
 	}
 	
 	// 카테고리별 상품 수
@@ -117,5 +122,8 @@ public class CommonDAOImpl implements CommonDAO {
 	public int insertCart(CartVO vo) {
 		return sqlSession.insert("com.leafcom.web.dao.CommonDAO.getCartInfo.insertCart", vo);
 	}
+
+
+
 
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE mapper
+	     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	     
+<mapper namespace="com.leafcom.web.dao.PostDAO">
+
+	<resultMap type="com.leafcom.web.vo.PostVO" id="PostVO">
+		<id property="postNum" column="po_name"/>
+		<result property="meId" column="me_id"/>
+		<result property="boardId" column="bo_id"/>
+		<result property="boardName" column="bo_name"/>
+		<result property="writer" column="po_writer"/>
+		<result property="title" column="po_title"/>
+		<result property="content" column="po_content"/>
+		<result property="regDate" column="po_regDate"/>
+		<result property="hit" column="po_hit"/>
+		<result property="ref" column="po_ref"/>
+		<result property="refLevel" column="po_ref_level"/>
+		<result property="refStep" column="po_ref_step"/>
+		<result property="ip" column="writer_ip"/>
+		<result property="condition" column="po_condition"/>
+	</resultMap>
+	
+	<select id="getPostCount" resultType="int">
+		SELECT COUNT(*) cnt FROM Post WHERE bo_id = #{boardId}
+		<if test="!fullist">
+			AND po_writer = #{writer}
+		</if>
+	</select>
+	
+	<select id="getPostList" resultType="com.leafcom.web.vo.PostVO" resultMap="PostVO">
+		SELECT * 
+		  FROM (SELECT rownum rNum, p.* 
+				  FROM (SELECT * 
+				  		  FROM post 
+				  		 WHERE bo_id = #{boardId}
+		<if test="!fullList">
+					       AND po_ref IN (SELECT po_ref 
+								   	        FROM post 
+							  	   	       WHERE po_writer = #{writer})
+		</if>
+			<![CDATA[
+						 ORDER BY po_ref DESC, po_ref_step ASC) p)
+				 WHERE rNum >= #{start} AND rNum <= #{end}
+			]]>
+	</select>
+	
+	<update id="addPostHit" parameterType="int">
+		UPDATE post SET po_hit = po_hit+1 WHERE po_num = #{num}
+	</update>
+	
+	<select id="getPostDetail" resultMap="com.leafcom.web.vo.PostVO">
+		SELECT * FROM post WHERE po_num = #{num}
+	</select>
+	
+	<select id="chkWriter" resultType="int">
+		SELECT COUNT(*) cnt FROM post WHERE po_num = #{num} AND po_writer = #{writer}
+	</select>
+	
+	<update id="updatePost" parameterType="com.leafcom.web.vo.PostVO">
+		UPDATE post SET po_title=#{title}, po_content=#{content} WHERE po_num=#{postNum}
+	</update>
+	
+	<update id="updateRef" parameterType="com.leafcom.web.vo.PostVO">
+		UPDATE post SET po_ref_step = po_ref_step+1 WHERE po_ref=#{ref} AND po_ref_step > #{refStep}
+	</update>
+	
+	<insert id="insertPost" parameterType="com.leafcom.web.vo.PostVO">
+		INSERT INTO post (po_num, me_id, bo_id, po_writer, po_title, po_content, po_regdate, 
+			po_hit, po_ref, po_ref_step, po_ref_level, writer_ip, po_condition)
+		VALUES (po_num_seq.nextval, #{meId}, #{boardId}, {writer}, #{title}, #{content}, #{regDate}, 0,
+		<if test="postNum!=0">
+		 	#{ref}, #{refStep}, #{refLevel},
+		</if>
+		<if test="postNum==0">
+			po_num_seq.currval, 0, 0, 
+		</if>
+			#{ip}, #{condition})
+	</insert>
+	
+	<select id="hasReply" resultType="int">
+		SELECT COUNT(*) FROM post WHERE po_ref=#{postNum} AND po_ref_step=#{refStep}+1 AND po_ref_level > #{refLevel}
+	</select>
+	
+	<delete id="deletePost" parameterType="com.leafcom.web.vo.PostVO">
+		DELETE FROM post WHERE po_num = #{postNum}
+	</delete>
+	
+	<delete id="deletePostRef" parameterType="com.leafcom.web.vo.PostVO">
+		DELETE FROM post WHERE po_num = #{postNum} OR (po_ref=#{ref} AND po_ref_level>#{refLevel})
+	</delete>
+	
+	
+</mapper>    

@@ -69,7 +69,7 @@ public class CommonController {
 	@RequestMapping("/signUpAction.co")
 	public String signUpAction(@RequestParam String id, @RequestParam String pw, 
 			@RequestParam String name, @RequestParam String email, @RequestParam String auth,
-			@RequestParam String mobile, Model model) {
+			@RequestParam String mobile, HttpServletRequest req, Model model) {
 		logger.info("[co][cnt][url->signUpAction]");
 		
 		service.signUpAction(id, pw, name, email, mobile, auth, model);
@@ -79,7 +79,7 @@ public class CommonController {
 	
 	// 이메일 체크
 	@RequestMapping("/emailChkAction.co")
-	public String emailChkAction(@RequestParam String id, @RequestParam String key, Model model) {
+	public String emailChkAction(@RequestParam String id, @RequestParam String key, HttpServletRequest req, Model model) {
 		logger.info("[co][cnt][url->emailChkAction]");
 		
 		service.activateId(id, key, model);
@@ -89,7 +89,7 @@ public class CommonController {
 	
 	// 이메일 재전송 페이지
 	@RequestMapping("/emailChk.co")
-	public String signUpAction(@RequestParam String id, @RequestParam String key, Model model) {
+	public String signUpAction(@RequestParam String id, @RequestParam String key, HttpServletRequest req, Model model) {
 		logger.info("[co][cnt][url->signUpAction]");
 		
 		return "customer/info/emailchk";
@@ -97,7 +97,7 @@ public class CommonController {
 	
 	// 이메일 재전송
 	@RequestMapping("/emailResend.co")
-	public String emailResend(@RequestParam String id, @RequestParam String key, @RequestParam String email, Model model) {
+	public String emailResend(@RequestParam String id, @RequestParam String key, @RequestParam String email, HttpServletRequest req, Model model) {
 		logger.info("[co][cnt][url->emailResend]");
 		
 		MailSendHandler msh = new MailSendHandler();
@@ -119,7 +119,7 @@ public class CommonController {
 	
 	// 로그아웃 처리
 	@RequestMapping("/logout.co")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletRequest req, Model model) {
 		logger.info("[co][cnt][url->logout]");
 		session.invalidate();
 		
@@ -129,7 +129,7 @@ public class CommonController {
 	// ----------------------------------
 	// 상품 카테고리
 	@RequestMapping("/itemList.co")
-	public String itemList() {
+	public String itemList(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->itemList]");
 		
 		return "common/item/list";
@@ -137,7 +137,7 @@ public class CommonController {
 	
 	// 상품 상세
 	@RequestMapping("/itemDetail.co")
-	public String itemDetail() {
+	public String itemDetail(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->itemDetail]");
 		
 		return "common/item/detail";
@@ -145,7 +145,7 @@ public class CommonController {
 	
 	// 장바구니 추가 후 리스트 페이지 로드 여부 확인 팝업창
 	@RequestMapping("/cartPop.co")
-	public String cartPop() {
+	public String cartPop(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->cartPop]");
 		
 		return "common/item/cartPop";
@@ -153,7 +153,7 @@ public class CommonController {
 	
 	// 장바구니 리스트
 	@RequestMapping("/cartList.co")
-	public String cartList() {
+	public String cartList(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->cartList]");
 		
 		return "commonn/cart/list";
@@ -161,7 +161,7 @@ public class CommonController {
 	
 	// 장바구니 추가
 	@RequestMapping("/addcart.co")
-	public String addcart() {
+	public String addcart(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->addcart]");
 		
 		return "common/cart/list";
@@ -169,7 +169,7 @@ public class CommonController {
 	
 	// 장바구니 수량 변경
 	@RequestMapping("/updateCart.co")
-	public String updateCart() {
+	public String updateCart(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->updateCart]");
 		
 		return "common/cart/list";
@@ -177,7 +177,7 @@ public class CommonController {
 	
 	// 장바구니 삭제(개별)
 	@RequestMapping("/deleteCart.co")
-	public String deleteCart() {
+	public String deleteCart(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->deleteCart]");
 		
 		return "common/cart/list";
@@ -185,7 +185,7 @@ public class CommonController {
 	
 	// 장바구니 삭제(리스트)	
 	@RequestMapping("/deleteCartList.co")
-	public String deleteCartList() {
+	public String deleteCartList(HttpServletRequest req, Model mode) {
 		logger.info("[co][cnt][url->deleteCartList]");
 		
 		return "common/cart/list";

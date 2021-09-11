@@ -3,20 +3,17 @@ package com.leafcom.web.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leafcom.web.dao.CommonDAO;
 import com.leafcom.web.util.Code;
@@ -100,60 +97,7 @@ public class CommonServiceImpl implements CommonService {
 		
 		model.addAttribute("insertCnt", insertCnt);
 	}
-	
-	// 회원탈퇴 -> 비밀번호 재확인
-//	@Override
-//	public void withdrawMemAction(HttpServletRequest req, Model model) {
-//		System.out.println("[co][service][withdrawMemAction()]");
-//		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
-//		String strId = vo.getId();
-//		String strPw = req.getParameter("pw");
-//		
-//		int selectCnt = dao.idPwChk(strId, strPw);
-//		int deleteCnt = 0;
-//		
-//		if (selectCnt==1) {
-//			deleteCnt = dao.withrawMember(strId);
-//		}
-//		req.setAttribute("selectCnt", selectCnt);
-//		req.setAttribute("deleteCnt", deleteCnt);
-//	}
-//
-//	// 회원정보 조회
-//	@Override
-//	public void viewMemInfoAction(HttpServletRequest req, Model model) {
-//		System.out.println("[co][service][viewMemInfoAction()]");
-//		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
-//		String strId = vo.getId();
-//		String strPw = req.getParameter("pw");
-//		
-//		int selectCnt = dao.idPwChk(strId, strPw);
-//		
-//		if (selectCnt==1) {
-//			vo = dao.getMemberInfo(strId);
-//		}
-//		req.setAttribute("selectCnt", selectCnt);
-//		req.setAttribute("dto", vo);
-//		
-//	}
-//	
-//	// 회원정보 수정
-//	@Override
-//	public void updateMemInfoAction(HttpServletRequest req, Model model) {
-//		System.out.println("[co][service][updateMemInfoAction()]");
-//		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
-//		
-//		vo.setId(vo.getId());
-//		vo.setPw(req.getParameter("pw"));
-//		vo.setName(req.getParameter("name"));
-//		vo.setEmail(req.getParameter("email"));
-//		vo.setMobile(req.getParameter("mobile"));
-//		
-//		int updateCnt = dao.updateMember(vo);
-//		
-//		req.setAttribute("updateCnt", updateCnt);
-//	}
-//	
+
 	// 아이디 권한 활성화
 	@Override
 	public void activateId(String id, String key, Model model) {
@@ -564,5 +508,7 @@ public class CommonServiceImpl implements CommonService {
 			}
 		}
 		
-	}	
+	}
+
+	
 }

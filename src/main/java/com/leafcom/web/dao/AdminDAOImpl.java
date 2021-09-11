@@ -1,8 +1,6 @@
 package com.leafcom.web.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public ItemVO getItemDetail(int itemId, int categoryId) {
+	public ItemVO getItemDetail(int itemId) {
 		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.getItemDetail");
 	}
 
@@ -52,11 +50,16 @@ public class AdminDAOImpl implements AdminDAO {
 	public int getOrderCnt(int condition) {
 		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.getOrderCnt",condition);
 	}
-
+	
 	@Override
 	public List<OrderVO> orderList(int start, int end, int condition) {
 		return sqlSession.selectList("com.leafcom.web.dao.AdminDAO.getItemCnt.orderList");
 	}
+
+	@Override
+	public OrderVO orderInfo(int odId) {
+		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.orderInfo", odId);
+	}	
 
 	@Override
 	public int updateOrder(int odId, int condition) {
@@ -71,11 +74,6 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int stockIncrease(int itId, int quantity) {
 		return sqlSession.update("com.leafcom.web.dao.AdminDAO.getItemCnt.stockIncrease");
-	}
-
-	@Override
-	public OrderVO orderInfo(int odId) {
-		return sqlSession.selectOne("com.leafcom.web.dao.AdminDAO.getItemCnt.orderInfo", odId);
 	}
 
 	@Override

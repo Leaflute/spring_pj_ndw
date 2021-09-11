@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -32,7 +33,66 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	CommonDAO codao;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
+	// 회원탈퇴 -> 비밀번호 재확인
+	@Override
+	public void withdrawMemAction(HttpServletRequest req, Model model) {
+		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
+		String strId = vo.getId();
+		int selectCnt = 0;
+		int deleteCnt = 0;
+		
+		String dbPw = codao.memberInfo(strId).getPw();
+
+		if(passwordEncoder.matches(req.getParameter("pw"), dbPw)) {
+			selectCnt = 1;
+			deleteCnt = codao.withrawMember(strId);
+		}
+		
+		req.setAttribute("selectCnt", selectCnt);
+		req.setAttribute("deleteCnt", deleteCnt);
+	}	
+	
+	// 회원정보 조회
+	@Override
+	public void viewMemInfoAction(HttpServletRequest req, Model model) {
+		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
+		String strId = vo.getId();
+		int selectCnt = 0;
+		
+		MemberVO dbvo = codao.memberInfo(strId);
+		String dbPw = dbvo.getPw();
+
+		if(passwordEncoder.matches(req.getParameter("pw"), dbPw)) {
+			selectCnt = 1;
+		}
+		
+		req.setAttribute("selectCnt", selectCnt);
+		req.setAttribute("dto", dbvo);
+		
+	}
+	
+	// 회원정보 수정
+	@Override
+	public void updateMemInfoAction(HttpServletRequest req, Model model) {
+		System.out.println("[co][service][updateMemInfoAction()]");
+		MemberVO vo = (MemberVO) req.getSession().getAttribute("member");
+		
+		vo.setId(vo.getId());
+		vo.setPw(req.getParameter("pw"));
+		vo.setName(req.getParameter("name"));
+		vo.setEmail(req.getParameter("email"));
+		vo.setMobile(req.getParameter("mobile"));
+		
+		int updateCnt = codao.updateMember(vo);
+		
+		req.setAttribute("updateCnt", updateCnt);
+	}
+		
+	
 	// 장바구니 구매 페이지 리스트 요청
 	@Override
 	public void buyInCartInfo (HttpServletRequest req, Model model) {
