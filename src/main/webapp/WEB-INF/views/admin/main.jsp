@@ -18,7 +18,7 @@
 	<div class="wrapper">
 		<div id="my_page_box">
 			<!-- 좌측 메뉴바 -->
-			<%@ include file="./nav.jsp" %> 
+			<%@ include file="../include/nav.jsp" %> 
 			
 			<!-- section -->
 			<section class="mem_content">

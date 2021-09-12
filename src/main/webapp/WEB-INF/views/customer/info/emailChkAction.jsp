@@ -13,13 +13,13 @@
 </head>
 <body>
 
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../../include/header.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">
 	<section class="wrapper">
 		<div id="my_page_box">
-			<%@ include file="../nav.jsp" %>
+			<%@ include file="../../include/nav.jsp" %>
 			
 			<c:if test="${selectCnt==0}">
 				<script type="text/javascript">

@@ -1,11 +1,9 @@
 package com.leafcom.web.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface AdminService {
 	
@@ -19,7 +17,7 @@ public interface AdminService {
 	public void itemDetail(HttpServletRequest req, Model model);
 	
 	// 상품 추가
-	public void addItem(HttpServletRequest req, Model model); 
+	public void addItem(MultipartHttpServletRequest mReq, Model model); 
 	
 	// 상품 정보 수정
 	public void updateItem(HttpServletRequest req, Model model);

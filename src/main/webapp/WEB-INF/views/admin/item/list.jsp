@@ -13,7 +13,8 @@
 </head>
 <body>
 <form action="" method="post">
-<%@ include file="../../include/header.jsp" %> 
+<s:csrfInput/>
+<%@ include file="../header.jsp" %> 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

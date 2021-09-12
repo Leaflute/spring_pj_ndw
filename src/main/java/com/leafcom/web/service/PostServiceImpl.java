@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.leafcom.web.dao.PostDAO;
 import com.leafcom.web.vo.MemberVO;
@@ -22,7 +23,7 @@ public class PostServiceImpl implements PostService {
 	
 	// 게시글 목록
 	@Override
-	public void postList(HttpServletRequest req, HttpServletResponse res) {
+	public void postList(HttpServletRequest req, Model model) {
 		
 		// 페이징
 		int boardId = Integer.parseInt(req.getParameter("boardId"));	//게시판 id
@@ -99,25 +100,25 @@ public class PostServiceImpl implements PostService {
 		}
 		
 		// 6단계. request나 session에 처리결과를 저장 -> jsp로 전달
-		req.setAttribute("dtos", dtos);		//게시글 목록
-		req.setAttribute("cnt", cnt);		//글 개수
-		req.setAttribute("number", number);	//글 번호
-		req.setAttribute("pageNum", pageNum);//페이지 번호
-		req.setAttribute("boardId", boardId);
-		req.setAttribute("fullList", fullList);
+		model.addAttribute("dtos", dtos);		//게시글 목록
+		model.addAttribute("cnt", cnt);		//글 개수
+		model.addAttribute("number", number);	//글 번호
+		model.addAttribute("pageNum", pageNum);//페이지 번호
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("fullList", fullList);
 		
 		if (cnt > 0) {
-			req.setAttribute("startPage", startPage);
-			req.setAttribute("endPage", endPage);
-			req.setAttribute("pageBlock", pageBlock);
-			req.setAttribute("pageCount", pageCount);
-			req.setAttribute("currentPage", currentPage);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			model.addAttribute("pageBlock", pageBlock);
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("currentPage", currentPage);
 		}
 	}
 
 	// 게시글 상세 페이지 조회
 	@Override
-	public void postDetail(HttpServletRequest req, HttpServletResponse res) {
+	public void postDetail(HttpServletRequest req, Model model) {
 		
 		int boardId = Integer.parseInt(req.getParameter("boardId"));	//게시판 id
 		boolean fullList = Boolean.parseBoolean(req.getParameter("fullList"));	//리스트 전체를 가져올지 여부
@@ -134,17 +135,17 @@ public class PostServiceImpl implements PostService {
 		PostVO vo = dao.getPostDetail(num);
 		
 		// 6단계. jsp로 전달하기 위해 request나 session에 처리결과를 저장 
-		req.setAttribute("dto", vo);
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("number", number);
-		req.setAttribute("selectCnt", selectCnt);
-		req.setAttribute("boardId", boardId);
-		req.setAttribute("fullList", fullList);
+		model.addAttribute("dto", vo);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("number", number);
+		model.addAttribute("selectCnt", selectCnt);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("fullList", fullList);
 	}
 
 	// 게시글 작성 - 처리
 	@Override
-	public void postWriteAction(HttpServletRequest req, HttpServletResponse res) {
+	public void postWriteAction(HttpServletRequest req, Model model) {
 		PostVO vo = new PostVO();
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
@@ -182,15 +183,15 @@ public class PostServiceImpl implements PostService {
 		
 		int insertCnt = dao.insertPost(vo);
 		
-		req.setAttribute("insertCnt", insertCnt);
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("boardId", boardId);
-		req.setAttribute("fullList", fullList);
+		model.addAttribute("insertCnt", insertCnt);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("fullList", fullList);
 	}
 	
 	// 게시글 수정
 	@Override
-	public void postUpdateAction(HttpServletRequest req, HttpServletResponse res) {
+	public void postUpdateAction(HttpServletRequest req, Model model) {
 		int num = Integer.parseInt(req.getParameter("num"));
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
 		int boardId = Integer.parseInt(req.getParameter("boardId"));
@@ -204,17 +205,17 @@ public class PostServiceImpl implements PostService {
 		int updateCnt = dao.updatePost(vo);
 		System.out.println("updateCnt" + updateCnt);
 		
-		req.setAttribute("num", num);
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("updateCnt", updateCnt);
-		req.setAttribute("boardId", boardId);
-		req.setAttribute("fullList", fullList);
+		model.addAttribute("num", num);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("updateCnt", updateCnt);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("fullList", fullList);
 
 	}
 	
 	// 게시글 삭제
 	@Override
-	public void postDeleteAction(HttpServletRequest req, HttpServletResponse res) {
+	public void postDeleteAction(HttpServletRequest req, Model model) {
 		int num = Integer.parseInt(req.getParameter("num"));
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
 		int boardId = Integer.parseInt(req.getParameter("boardId"));	//게시판 id
@@ -237,10 +238,10 @@ public class PostServiceImpl implements PostService {
 			deleteCnt = dao.deletePost(pVo);
 		}
 			
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("deleteCnt", deleteCnt);
-		req.setAttribute("boardId", boardId);
-		req.setAttribute("fullList", fullList);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("deleteCnt", deleteCnt);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("fullList", fullList);
 	}
 
 

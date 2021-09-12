@@ -12,12 +12,18 @@
 </head>
 <body>
 <form action="csUpdateAction.bo" method="post" name="modifyForm">
+	<s:csrfInput/>
 	<input type="hidden" name="num" value="${num}">
 	<input type="hidden" name="pageNum" value="${pageNum}">
 	<input type="hidden" name="boardId" value="${boardId}">
 	<input type="hidden" name="fullList" value="${fullList}">
 	<input type="hidden" name="number" value="${number}">
-<%@ include file="../../include/header.jsp" %>
+<s:authorize access="hasRole('ROLE_ADMIN')">
+	<%@ include file="../../admin/header.jsp" %>
+</s:authorize>
+<s:authorize access="hasRole('ROLE_USER')">
+	<%@ include file="../../include/header.jsp" %>
+</s:authorize>
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

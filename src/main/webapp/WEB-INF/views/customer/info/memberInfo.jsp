@@ -12,14 +12,14 @@
 <title>My page</title>
 </head>
 <body>
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../../include/header.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
-			<%@ include file="../nav.jsp" %>
+			<%@ include file="../../include/nav.jsp" %>
 			
 			<!-- section -->
 			<section class="mem_content">
@@ -27,6 +27,7 @@
 					<div class="inner_content">
 						<div class="title_letter">MY정보관리</div>
 						<form action="updateAction.cu" method="post" name="updateForm" onsubmit="return updateFormChk();">
+						<s:csrfInput/>
 						<input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
 						<table>
 							<c:if test="${selectCnt==1}">

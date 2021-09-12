@@ -9,6 +9,7 @@
 </head>
 <body>
 <form action="csWriteAction.bo" method="post" name="modifyForm">
+	<s:csrfInput/>
 	<input type="hidden" name="boardId" value="${boardId}">
 	<input type="hidden" name="fullList" value="${fullList}">
 	<input type="hidden" name="num" value="${num}">
@@ -16,7 +17,12 @@
 	<input type="hidden" name="ref" value="${ref}">
 	<input type="hidden" name="refStep" value="${refStep}">
 	<input type="hidden" name="refLevel" value="${refLevel}">
-<%@ include file="../../include/header.jsp" %>
+<s:authorize access="hasRole('ROLE_ADMIN')">
+	<%@ include file="../../admin/header.jsp" %>
+</s:authorize>
+<s:authorize access="hasRole('ROLE_USER')">
+	<%@ include file="../../include/header.jsp" %>
+</s:authorize>
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

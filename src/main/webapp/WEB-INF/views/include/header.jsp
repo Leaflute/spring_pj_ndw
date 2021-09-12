@@ -44,12 +44,19 @@
 }
 
 </style>
+<script type="text/javascript">
+	function btnClick(formName) {
+		formName.submit();
+	};
+</script>
+
 </head>
 <body>
 <!-- header 시작 -->
 <header>
 <!-- header 상단 -->
-	
+<form name="logout" action="logout.co" method="post">
+	<s:csrfInput />	
 	<div class="full_width" >
 		<div class="wrapper" id="hd_top">			
 			<ul id="top_left">
@@ -65,13 +72,13 @@
 				</c:if>
 				<c:if test="${not empty sessionScope.member}">
 					<li><b>${sessionScope.member.name}</b>님이 접속중입니다.</li>
-					<li><a href="logout.co">로그아웃</a></li>
+					<li><a href="#" onclick="btnClick(logout)">로그아웃</a></li>
 					<li><a href="csList.bo?boardId=1&fullList=false">고객센터</a></li>
 				</c:if>
 			</ul>
 		</div>
 	</div>
-	
+</form>	
 	<!-- header 중단 -->
 	<div class="wrapper" id="hd_mid">
 		<div>

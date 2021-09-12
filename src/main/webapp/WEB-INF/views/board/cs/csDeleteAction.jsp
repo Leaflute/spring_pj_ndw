@@ -8,7 +8,12 @@
 <title>삭제 처리</title>
 </head>
 <body>
+<s:authorize access="hasRole('ROLE_ADMIN')">
+<%@ include file="../../admin/header.jsp" %>
+</s:authorize>
+<s:authorize access="hasRole('ROLE_USER')">
 <%@ include file="../../include/header.jsp" %>
+</s:authorize>	
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

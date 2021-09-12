@@ -11,7 +11,12 @@
 <title>my문의</title>
 </head>
 <body>
-<%@ include file="../../include/header.jsp" %>
+<s:authorize access="hasRole('ROLE_ADMIN')">
+	<%@ include file="../../admin/header.jsp" %>
+</s:authorize>
+<s:authorize access="hasRole('ROLE_USER')">
+	<%@ include file="../../include/header.jsp" %>
+</s:authorize>	
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
@@ -36,9 +41,9 @@
 								<th>제목</th>
 								<th>작성자</th>
 								<th>작성일</th>
-								<c:if test="${sessionScope.member.role==1}">
+								<s:authorize access="hasRole('ROLE_ADMIN')"> 
 									<th>IP</th>
-								</c:if>
+								</s:authorize>
 							</tr>
 							<c:if test="${cnt>0}">
 								<%-- <c:forEach var="작은바구니 참조변수" items="${ParamName}"> --%>
@@ -101,13 +106,13 @@
 						</c:if>
 						<br><br>
 						</div>
-						<c:if test="${sessionScope.member.role!=1}">
+						<s:authorize access="hasRole('ROLE_USER')">
 						<div class="outer_content"> 
 							<a href="csWrite.bo?boardId=${boardId}&fullList=${fullList}&pageNum=${pageNum}">
 								<input type="button" value="문의하기" class="little_btn">
 							</a>
 						</div>
-						</c:if>	
+						</s:authorize>
 					</div>
 				</div>
 			</section>

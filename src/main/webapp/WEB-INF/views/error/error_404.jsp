@@ -9,7 +9,7 @@
 <title>404 ERROR</title>
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../include/header.jsp" %>
 <article class="container">
 <!-- 컨테이너 -->
 	<div class="wrapper">

@@ -12,8 +12,9 @@
 <script src="${jsPath}member.js" type="text/javascript"></script>
 </head>
 <body>
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../../include/header.jsp" %>
 <form action="emailResend.co" method="POST">
+<s:csrfInput/>
 <input type="hidden" name = "${_csrf.parameterName}" value="${_csrf.token}">
 <input type="hidden" name="id" value="${sessionScope.member.id}">
 <input type="hidden" name="key" value="${sessionScope.member.key}">
@@ -22,7 +23,7 @@
 <article class="container">
 	<section class="wrapper">
 		<div id="my_page_box">
-			<%@ include file="../nav.jsp" %>
+			<%@ include file="../../include/nav.jsp" %>
 			<div class="outer_content">
 				<div class="inner_content">
 					<table>

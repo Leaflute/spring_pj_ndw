@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="../../include/header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

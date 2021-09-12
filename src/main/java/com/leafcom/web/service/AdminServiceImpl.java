@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.leafcom.web.dao.AdminDAOImpl;
 import com.leafcom.web.util.Code;
@@ -24,6 +27,9 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	AdminDAOImpl dao;
 
+	private static final String UPLOADED_IMG_PATH = 
+		"D:\\Dev_88\\workspace\\spring_pj_ndw\\resources\\";
+	
 	// 상품 리스트
 	@Override
 	public void itemList(HttpServletRequest req, Model model) {
@@ -101,19 +107,19 @@ public class AdminServiceImpl implements AdminService {
 			itemDtos = dao.getItemList(start, end, categoryId);
 		}
 		
-		req.setAttribute("itemDtos", itemDtos);
-		req.setAttribute("categoryMap", categoryMap);
-		req.setAttribute("cnt", cnt);		
-		req.setAttribute("number", number);
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("categoryId", categoryId);
+		model.addAttribute("itemDtos", itemDtos);
+		model.addAttribute("categoryMap", categoryMap);
+		model.addAttribute("cnt", cnt);		
+		model.addAttribute("number", number);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("categoryId", categoryId);
 		
 		if (cnt > 0) {
-			req.setAttribute("startPage", startPage);
-			req.setAttribute("endPage", endPage);
-			req.setAttribute("pageBlock", pageBlock);
-			req.setAttribute("pageCount", pageCount);
-			req.setAttribute("currentPage", currentPage);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			model.addAttribute("pageBlock", pageBlock);
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("currentPage", currentPage);
 		}
 	}
 	
@@ -127,9 +133,9 @@ public class AdminServiceImpl implements AdminService {
 		
 		ItemVO vo = dao.getItemDetail(itemId);
 		
-		req.setAttribute("dto", vo);
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("categoryId", categoryId);
+		model.addAttribute("dto", vo);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("categoryId", categoryId);
 	}
 	
 	// 카테고리 맵 가져오기
@@ -138,29 +144,31 @@ public class AdminServiceImpl implements AdminService {
 		System.out.println("[ad][service][categoryMap()]");
 		ItemVO iVo = new ItemVO();
 		Map<Integer, String> categoryMap = iVo.getCgMap();
-		req.setAttribute("categoryMap", categoryMap);
+		model.addAttribute("categoryMap", categoryMap);
 	}
 	
 	// 상품 추가 처리
 	@Override
-	public void addItem(HttpServletRequest req, Model model) {
+	public void addItem(MultipartHttpServletRequest mReq, Model model) {
 		System.out.println("[ad][service][addItem()]");
-		int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+		int categoryId = Integer.parseInt(mReq.getParameter("categoryId"));
 		
 		ItemVO iVo = new ItemVO();
 		Map<Integer, String> categoryMap = iVo.getCgMap();
 		String categoryName = categoryMap.get(categoryId);
 		
-		String itemName = req.getParameter("itemName");
-		String company = req.getParameter("company");
+		String itemName = mReq.getParameter("itemName");
+		String company = mReq.getParameter("company");
 		// sql에 저장할 이미지 경로 = "/플젝명/updload/" + 이미지 핸들러에서 보낸 속성값("fileName");
-		String smallImg = "/jsp_pj_ndw/asset/uploaded/" + (String) req.getAttribute("fileName");
-		String largeImg = "/jsp_pj_ndw/asset/uploaded/" + (String) req.getAttribute("fileName");
-		String detailImg = "/jsp_pj_ndw/asset/uploaded/" + (String) req.getAttribute("fileName");
-		String info = req.getParameter("info");
-		int stock = Integer.parseInt(req.getParameter("stock"));
-		int cost = Integer.parseInt(req.getParameter("cost"));
-		int price = Integer.parseInt(req.getParameter("price"));
+		
+		String saveDir = mReq.getRealPath("/resources/uploaded");
+		
+		MultipartFile sImg = mReq.getFile("smallImg");
+		
+		String info = mReq.getParameter("info");
+		int stock = Integer.parseInt(mReq.getParameter("stock"));
+		int cost = Integer.parseInt(mReq.getParameter("cost"));
+		int price = Integer.parseInt(mReq.getParameter("price"));
 		
 		ItemVO vo = new ItemVO();
 		vo.setCategoryId(categoryId);
@@ -179,7 +187,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		int insertCnt = dao.insertItem(vo);
 		
-		req.setAttribute("insertCnt",insertCnt);
+		model.addAttribute("insertCnt",insertCnt);
 	}
 	
 	// 상품 수정 처리
@@ -244,9 +252,9 @@ public class AdminServiceImpl implements AdminService {
 		
 		int updateCnt = dao.updateItem(vo);
 		
-		req.setAttribute("updateCnt",updateCnt);
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("categoryId", categoryId);
+		model.addAttribute("updateCnt",updateCnt);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("categoryId", categoryId);
 	}
 	
 	// 상품 삭제 처리
@@ -259,8 +267,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		dao.deleteItem(itemId);
 		
-		req.setAttribute("pageNum", pageNum);
-		req.setAttribute("categoryId", categoryId);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("categoryId", categoryId);
 	}
 	
 	// 주문 목록
@@ -335,19 +343,19 @@ public class AdminServiceImpl implements AdminService {
 		OrderVO oVo = new OrderVO();
 		Map<Integer, String> odConMap = oVo.getOdConMap();
 		
-		req.setAttribute("orderList", orderList);
-		req.setAttribute("odConMap", odConMap);
-		req.setAttribute("condition", condition);
-		req.setAttribute("cnt", cnt);		
-		req.setAttribute("number", number);
-		req.setAttribute("pageNum", pageNum);
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("odConMap", odConMap);
+		model.addAttribute("condition", condition);
+		model.addAttribute("cnt", cnt);		
+		model.addAttribute("number", number);
+		model.addAttribute("pageNum", pageNum);
 		
 		if (cnt > 0) {
-			req.setAttribute("startPage", startPage);
-			req.setAttribute("endPage", endPage);
-			req.setAttribute("pageBlock", pageBlock);
-			req.setAttribute("pageCount", pageCount);
-			req.setAttribute("currentPage", currentPage);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			model.addAttribute("pageBlock", pageBlock);
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("currentPage", currentPage);
 		}
 	}
 	
@@ -370,8 +378,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		int updateCnt = dao.updateOrder(odId, condition);
 		
-		req.setAttribute("condition", condition);
-		req.setAttribute("pageNum", pageNum);
+		model.addAttribute("condition", condition);
+		model.addAttribute("pageNum", pageNum);
 	}
 	
 	// 결산 항목 호출
@@ -397,7 +405,7 @@ public class AdminServiceImpl implements AdminService {
 			i++;
 		}
 		System.out.println(reportList);
-		req.setAttribute("reportList", reportList);
+		model.addAttribute("reportList", reportList);
 	}
 	
 }

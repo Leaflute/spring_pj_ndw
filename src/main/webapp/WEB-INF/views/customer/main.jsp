@@ -12,14 +12,14 @@
 
 </head>
 <body>
-<%@ include file="../common/header.jsp" %>
+<%@ include file="../include/header.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
-			<%@ include file="./nav.jsp" %>
+			<%@ include file="../include/nav.jsp" %>
 
 			<!-- section -->
 			<section class="mem_content">

@@ -40,7 +40,7 @@
 					<li>고객센터 전화번호</li>
 					<li><b>1500-0000</b></li>
 				</ul>
-			<div>
+			</div>
 		</div>
 	</div>
 </footer>

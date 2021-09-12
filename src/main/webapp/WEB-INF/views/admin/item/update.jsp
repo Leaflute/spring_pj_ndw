@@ -13,6 +13,7 @@
 </head>
 <body>
 <form action="updateItemAction.ad" method="post" enctype="multipart/form-data" name="additemform" onsubmit="return addItemChk()">
+<s:csrfInput/>
 <input type="hidden" name="itemId" value="${dto.itemId}">
 <input type="hidden" name="originalSmallImg" value="${dto.smallImg}">
 <input type="hidden" name="originalLargeImg" value="${dto.largeImg}">
@@ -20,7 +21,7 @@
 <input type="hidden" name="regDate" value="${dto.regDate}">
 <input type="hidden" name="grade" value="${dto.grade}">
 <input type="hidden" name="pageNum" value="${pageNum}">
-<%@ include file="../../include/header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!-- article 시작 -->
 <article class="container">
 	<div class="wrapper">

@@ -12,15 +12,17 @@
 <title>상품추가</title>
 </head>
 <body>
-<form action="addItemAction.ad" method="post" enctype="multipart/form-data" name="additemform" onsubmit="return addItemChk()">
-<%@ include file="../../common/header.jsp" %>
+<form action="addItemAction.ad?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data" name="additemform" onsubmit="return addItemChk()">
+<s:csrfInput/>
+<%@ include file="../header.jsp" %>
+<s:csrfInput/>
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
 			<!-- 좌측 메뉴바 -->
-			<%@ include file="../nav.jsp" %>	
+			<%@ include file="../../include/nav.jsp" %>	
 			<!-- section -->
 			<section class="mem_content">
 				<div class="outer_content">

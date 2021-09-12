@@ -13,7 +13,8 @@
 </head>
 <body>
 <form action="buyNowAction.cu" method="post">
-<%@ include file="../../common/header.jsp" %> 
+<s:csrfInput/>
+<%@ include file="../../include/header.jsp" %> 
 <input type="hidden" name="itId" value="${iVo.itemId}">
 <input type="hidden" name="adId" value="${aVo.adId}">
 <!-- article 시작 -->

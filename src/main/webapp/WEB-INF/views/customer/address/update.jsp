@@ -72,6 +72,7 @@
 </head>
 <body>
 <form action="updateAddressAction.cu" method="post">
+<s:csrfInput/>
 <input type="hidden" name="adId" value="${dto.adId}">
 <%@ include file="../../include/header.jsp" %> 
 <!-- article 시작 -->

@@ -12,11 +12,17 @@
 </head>
 <body>
 <form action="csDeleteAction.bo" method="post" name="pwForm">
+	<s:csrfInput/>
 	<input type="hidden" name="num" value="${num}">
 	<input type="hidden" name="pageNum" value="${pageNum}">
 	<input type="hidden" name="boardId" value="${boardId}">
 	<input type="hidden" name="fullList" value="${fullList}">
+<s:authorize access="hasRole('ROLE_ADMIN')">
+<%@ include file="../../admin/header.jsp" %>
+</s:authorize>
+<s:authorize access="hasRole('ROLE_USER')">
 <%@ include file="../../include/header.jsp" %>
+</s:authorize>	
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

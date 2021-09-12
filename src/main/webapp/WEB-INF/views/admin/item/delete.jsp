@@ -13,10 +13,11 @@
 </head>
 <body>
 <form action="deleteItemAction.ad" method="post" name="deleteitemform">
+	<s:csrfInput/>
 	<input type="hidden" name="itemId" value="${dto.itemId}">
 	<input type="hidden" name="pageNum" value="${pageNum}">
 	<input type="hidden" name="categoryId" value="${dto.categoryId}">
-<%@ include file="../../include/header.jsp" %>
+<%@ include file="../header.jsp" %>
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

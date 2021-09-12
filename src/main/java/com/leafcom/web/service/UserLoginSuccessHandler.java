@@ -49,6 +49,8 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler{
 			url = "/admin.ad";
 		}
 		
+		mVo.setPw(null);
+		
 		request.setAttribute("msg", msg);
 		request.getSession().setAttribute("member", mVo);
 		request.getSession().setAttribute("authCnt", authCnt);

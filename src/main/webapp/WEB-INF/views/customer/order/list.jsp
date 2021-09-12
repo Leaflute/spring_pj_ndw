@@ -13,14 +13,15 @@
 </head>
 <body>
 <form action="" method="post">
-<%@ include file="../../common/header.jsp" %> 
+<s:csrfInput/>
+<%@ include file="../../include/header.jsp" %> 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->
 	<div class="wrapper">
 		<div id="my_page_box">
 			<!-- 좌측 메뉴바 -->
-			<%@ include file="../nav.jsp" %> 
+			<%@ include file="../../include/nav.jsp" %> 
 			
 			<!-- section -->
 			<section class="mem_content">

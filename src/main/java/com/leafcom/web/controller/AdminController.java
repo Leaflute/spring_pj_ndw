@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.leafcom.web.service.AdminService;
 
@@ -42,7 +45,7 @@ public class AdminController {
 	public String itemDetail(HttpServletRequest req, Model model) {
 		logger.info("[ad][cnt][url->itemDetail]");
 		
-		service.addItem(req, model);
+		service.itemDetail(req, model);
 		
 		return "admin/item/detail";
 	}
@@ -58,9 +61,11 @@ public class AdminController {
 	}
 	
 	// 상품 추가 처리
-	@RequestMapping("/addItemAction.ad")
-	public String addItemAction(HttpServletRequest req, Model model) {
+	@RequestMapping(value = "/addItemAction.ad", method=RequestMethod.POST)
+	public String addItemAction(MultipartHttpServletRequest mReq, Model model) {
 		logger.info("[ad][cnt][url->addItemAction]");
+		
+		service.addItem(mReq, model);
 		
 		return "admin/item/addAction";
 	}

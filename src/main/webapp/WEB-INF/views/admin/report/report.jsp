@@ -55,8 +55,9 @@ function drawTitleSubtitle() {
 <title>주문관리</title>
 </head>
 <body>
-<form action="">
-<%@ include file="../../include/header.jsp" %> 
+<form action="" method="post">
+<s:csrfInput/>
+<%@ include file="../header.jsp" %> 
 <!-- article 시작 -->
 <article class="container">
 	<!-- 컨테이너 -->

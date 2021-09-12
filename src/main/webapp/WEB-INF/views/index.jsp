@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<%@ include file="./common/header.jsp" %>
+<%@ include file="./include/header.jsp" %>
 
 <!-- article 시작 -->
 <article class="container">

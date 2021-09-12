@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="../../include/setting.jsp" %>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 </head>
 <body>
 <form action="cartList.cu" method="post" onsubmit="opener.location.href='cartList.cu'">
+<s:csrfInput/>
 <table>
 	<tr><th>장바구니로 이동하시겠습니까?</th></tr>
 	<tr>

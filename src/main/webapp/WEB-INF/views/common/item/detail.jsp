@@ -13,8 +13,9 @@
 </head>
 <body>
 <form action="buyNow.cu" method="Post" name="itemform">
+<s:csrfInput/>
 <input type="hidden" name="itemId" id="itemId" value="${dto.itemId}">
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../../include/header.jsp" %>
 <!-- article 시작 -->
 <article class="container">
 	<!-- section -->
