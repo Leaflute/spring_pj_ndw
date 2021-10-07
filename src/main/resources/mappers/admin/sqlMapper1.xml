@@ -75,7 +75,7 @@
 		</if>		
 	</select>
 	
-	<select id="getItemDetail" resultType="ItemVO">
+	<select id="getItemDetail" resultType="com.leafcom.web.vo.ItemVO">
 		SELECT * FROM item_v WHERE it_id = #{itemId}
 	</select>
 	
@@ -156,7 +156,7 @@
 		</if>
 	</select>
 	
-	<select id="orderInfo" parameterType="int" resultType="">
+	<select id="orderInfo" parameterType="int" resultType="com.leafcom.web.vo.ItemVO">
 		SELECT * FROM orders WHERE od_id = #{odId}
 	</select>
 	
@@ -172,7 +172,7 @@
 		{call item_stock_plus(#{itId},#{quantity})}
 	</update>
 	
-	<select id="fiveDayReport" resultType="com.leafcom.web.vo.ResultVO">
+	<select id="fiveDayReport" resultType="com.leafcom.web.vo.ReportVO">
 		SELECT SUM(i.it_price * o.od_quantity) sales,
 			   SUM((i.it_price - i.it_cost) * o.od_quantity) margin,
 			   TO_CHAR(o.od_regdate,'yyyy-fmmm-dd') odate,

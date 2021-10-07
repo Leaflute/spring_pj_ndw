@@ -79,7 +79,7 @@
 	
 	<update id="updateAddress" parameterType="com.leafcom.web.vo.AddressVO">
 		UPDATE address
-		   SET ad_recipient = #{},
+		   SET ad_recipient = #{recipient},
 		       ad_tel = #{tel},
 		       ad_zipcode = #{zipcode},
 		       ad_main = #{main},
@@ -125,7 +125,7 @@
 	
 	<insert id="insertOrder" parameterType="com.leafcom.web.vo.OrderVO">
 		INSERT INTO orders (od_id, ad_id, me_id, it_id, od_condition, od_quantity, od_regdate)
-		VALUES (order_num_seq.nextval, #{adId}, #{meId, #{itId}, #{condition}, #{quantity}, #{regDate})
+		VALUES (order_num_seq.nextval, #{adId}, #{meId}, #{itId}, #{condition}, #{quantity}, #{regDate})
 	</insert>
 	
 	<update id="updateOrder" >
